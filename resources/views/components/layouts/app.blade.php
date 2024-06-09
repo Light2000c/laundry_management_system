@@ -12,10 +12,20 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    {{-- ionic cdn --}}
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" /> --}}
+
+
+    {{-- sweet alert cdn link --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     @livewireStyles
 </head>
 
 <body>
+
     <div class="">
         <div class="row flex-nowrap no-gutters g-0">
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
@@ -26,39 +36,44 @@
                     </a>
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
                         id="menu">
-                        <li class="nav-item">
-                            <a href="{{ route("dashboard") }}" class="nav-link align-middle px-0">
-                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                        <li class="nav-item active">
+                            <a href="{{ route('dashboard') }}" class="nav-link align-middle px-0">
+                                <i class="bi bi-house-door-fill"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route("laundry-list") }}" class="nav-link align-middle px-0">
-                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Laundry List</span>
+                            <a href="{{ route('laundry-list') }}" class="nav-link align-middle px-0">
+                                <i class="bi bi-card-list"></i> <span class="ms-1 d-none d-sm-inline">Laundry
+                                    List</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route("laundry-category") }}" class="nav-link align-middle px-0">
-                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Laundry Category</span>
+                            <a href="{{ route('laundry-category') }}" class="nav-link align-middle px-0">
+                                <i class="bi bi-card-checklist"></i> <span class="ms-1 d-none d-sm-inline">Laundry
+                                    Category</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route("supply-list") }}" class="nav-link align-middle px-0">
-                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Supply List</span>
+                            <a href="{{ route('supply-list') }}" class="nav-link align-middle px-0">
+                                <i class="bi bi-card-list"></i> <span class="ms-1 d-none d-sm-inline">Supply
+                                    List</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route("inventry") }}" class="nav-link align-middle px-0">
-                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Inventory</span>
+                            <a href="{{ route('inventry') }}" class="nav-link align-middle px-0">
+                                <i class="bi bi-house-gear-fill"></i> <span
+                                    class="ms-1 d-none d-sm-inline">Inventory</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route("reports") }}" class="nav-link align-middle px-0">
-                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Report</span>
+                            <a href="{{ route('reports') }}" class="nav-link align-middle px-0">
+                                <i class="bi bi-clipboard-data-fill"></i> <span
+                                    class="ms-1 d-none d-sm-inline">Report</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route("users") }}" class="nav-link align-middle px-0">
-                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Users</span>
+                            <a href="{{ route('users') }}" class="nav-link align-middle px-0">
+                                <i class="bi bi-people-fill"></i> <span class="ms-1 d-none d-sm-inline">Users</span>
                             </a>
                         </li>
                     </ul>
@@ -74,10 +89,11 @@
                             id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
                                 class="rounded-circle">
-                            <span class="d-none d-sm-inline mx-1">Account</span>
+                            @if (Auth::user())
+                                <span class="d-none d-sm-inline mx-1">{{ Auth::user()->name }}</span>
+                            @endif
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                            <li><a class="dropdown-item" href="#">New project...</a></li>
                             <li><a class="dropdown-item" href="#">Settings</a></li>
                             <li><a class="dropdown-item" href="#">Profile</a></li>
                             <li>
@@ -101,6 +117,21 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
+
+
+    {{-- ionic cdn script --}}
+    {{-- <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script> --}}
+
+    <script>
+        $(document).ready(function() {
+            $('#exampleModal').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+        });
+    </script>
+
 </body>
 
 </html>

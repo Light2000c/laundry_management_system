@@ -10,8 +10,7 @@
     </div>
 
     <div class="d-flex justify-content-end me-4 mt-5">
-        <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal"
-            data-bs-target="#exampleModal">Manage Supply</button>
+        <button class="btn btn-outline-primary" type="button" wire:click="openCreateModal"> Manage Supply</button>
     </div>
 
 
@@ -35,12 +34,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Baking Soda</td>
-                                <td class="text-end">25</td>
-                            </tr>
-
+                            @foreach ($supplies as $supply)
+                                <tr>
+                                    <th scope="row">{{ $supply->id }}</th>
+                                    <td>{{ $supply->name }}</td>
+                                    <td class="text-end">{{ $supply->availableSupply($supply->id) }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -78,22 +78,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>12-02-2020</td>
-                                <td>Baking Soda</td>
-                                <td>15</td>
-                                <td><span class="badge text-bg-primary">IN</span></td>
-                                <td>
-                                    <div class="d-flex">
-                                        <button class="btn btn-outline-primary btn-sm me-2"><i
-                                                class="bi bi-pencil-square"></i></button>
-                                        <button class="btn btn-outline-danger btn-sm"><i
-                                                class="bi bi-trash3"></i></button>
-                                    </div>
-                                </td>
+                            @foreach ($inventries as $inventry)
+                                <tr>
+                                    <th scope="row">{{ $inventry->id }}</th>
+                                    <td>{{ $inventry->created_at }}</td>
+                                    <td>{{ $inventry->supplyList->name }}</td>
+                                    <td>{{ $inventry->quantity }}</td>
+                                    <td>
+                                        @if ($inventry->type === 'in')
+                                            <span class="badge text-bg-primary">{{ $inventry->type }}</span>
+                                    </td>
+                                @else
+                                    <span class="badge text-bg-danger">{{ $inventry->type }}</span></td>
+                            @endif
+                            <td>
+                                <div class="d-flex">
+                                    <button wire:click="openUpdateModal({{ $inventry->id }})"
+                                        class="btn btn-outline-primary btn-sm me-2"><i
+                                            class="bi bi-pencil-square"></i></button>
+                                    <button wire:click="deleteInventry({{ $inventry->id }})" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash3"></i></button>
+                                </div>
+                            </td>
                             </tr>
-
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -101,6 +108,177 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div wire:ignore.self class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Manage Supply</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
 
+                    <div class="p-3">
+                        <form wire:submit.prevent="send" method="post">
+                            <div class="form-group">
+                                <div class="form-group mb-3">
+                                    <label class="mb-2" for="">Supply Name</label>
+                                    <select wire:model="supply_list_id" class="form-control" id="">
+                                        <option value="" selected>Select supply name</option>
+                                        @foreach ($supplies as $supply)
+                                            <option value="{{ $supply->id }}">{{ $supply->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('supply_list_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="mb-2" for="">Qty</label>
+                                    <input wire:model="quantity" type="number" class="form-control">
+                                    @error('quantity')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="mb-2" for="">Type</label>
+                                    <select wire:model="type" class="form-control" name="" id="">
+                                        <option value="" selected>Select type</option>
+                                        <option value="in">In</option>
+                                        <option value="used">Used</option>
+                                    </select>
+                                    @error('type')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary"
+                                        {{ $busy ? 'disabled' : '' }}>{{ $busy ? 'Procesing...' : 'Save' }}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <!-- Modal -->
+    <div wire:ignore.self class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Manage Supply</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="p-3">
+                        <form wire:submit.prevent="updateInventry" method="post">
+                            <div class="form-group">
+                                <div class="form-group mb-3">
+                                    <label class="mb-2" for="">Supply Name</label>
+                                    <select wire:model="supply_list_id" class="form-control">
+                                        <option>Select supply name</option>
+                                        @foreach ($supplies as $supply)
+                                            <option value="{{ $supply->id }}"
+                                                {{ $supply_list_id == $supply->id ? 'selected' : '' }}>
+                                                {{ $supply->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('supply_list_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="mb-2" for="">Qty</label>
+                                    <input wire:model="quantity" type="number" class="form-control">
+                                    @error('quantity')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="mb-2" for="">Type</label>
+                                    <select wire:model="type" class="form-control">
+                                        <option value="in" {{ $type == 'in' ? 'selected' : '' }}>In</option>
+                                        <option value="used" {{ $type == 'used' ? 'selected' : '' }}>Used</option>
+                                    </select>
+                                    @error('type')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary" {{ $busy ? 'disabled' : '' }}>
+                                        {{ $busy ? 'Processing...' : 'Save Changes' }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <script>
+        window.addEventListener('showCreateModal', function(e) {
+            $('#createModal').modal('show');
+
+        });
+    </script>
+    <script>
+        window.addEventListener('closeCreateInventory', function(e) {
+            $('#createModal').modal('hide');
+
+        });
+    </script>
+
+    <script>
+        window.addEventListener('showUpdateModal', event => {
+            $('#updateModal').modal('show');
+        });
+    </script>
+
+    <script>
+        window.addEventListener('closeUpdateModal', event => {
+            $('#updateModal').modal('hide');
+        });
+    </script>
+
+    <script>
+        window.addEventListener('message', function(e) {
+            // console.log("event ==>", e);
+
+            let data = e.detail;
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: data.icon,
+                title: data.title
+            });
+
+        });
+    </script>
 
 </div>

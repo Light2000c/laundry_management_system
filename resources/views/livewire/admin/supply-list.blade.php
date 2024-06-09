@@ -17,16 +17,21 @@
                     Laundry Supply Form
                 </div>
 
-                <div class="form-group mt-4 mb-4">
-                    <div class="form-group mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">* Supply</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
-                    </div>
+                <form wire:submit="send" method="post">
+                    <div class="form-group mt-4 mb-4">
+                        <div class="form-group mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">* Supply Name</label>
+                            <textarea wire:model="name" class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+                            @error('name')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
 
-                    <div class="d-grid">
-                        <button class="btn btn-outline-primary">Submit</button>
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-outline-primary" {{ $busy? 'disabled' : '' }}>{{ $busy? 'processing...' : 'submit' }}</button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
 
@@ -59,20 +64,21 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($supplies as $supply)
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Clinton Onitsha</td>
-                                <td>12-02-2020</td>
+                                <th scope="row">{{ $supply->id }}</th>
+                                <td>{{ $supply->name }}</td>
+                                <td>{{ $supply->created_at }}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <button class="btn btn-outline-primary btn-sm me-2"><i
+                                        <button wire:click="isUpdate({{ $supply }})" class="btn btn-outline-primary btn-sm me-2"><i
                                                 class="bi bi-pencil-square"></i></button>
-                                        <button class="btn btn-outline-danger btn-sm"><i
+                                        <button wire:click="delete({{ $supply }})" class="btn btn-outline-danger btn-sm"><i
                                                 class="bi bi-trash3"></i></button>
                                     </div>
                                 </td>
                             </tr>
-
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -80,6 +86,30 @@
         </div>
     </div>
 
+    <script>
+        window.addEventListener('message', function(e) {
+            // console.log("event ==>", e);
+            // Swal.fire(e.detail); 
 
+            let data = e.detail;
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: data.icon,
+                title: data.title
+            });
+
+        });
+    </script>
 
 </div>

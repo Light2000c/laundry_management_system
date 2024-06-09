@@ -9,10 +9,10 @@
         </nav>
     </div>
 
-    <div class="d-flex justify-content-end me-4 mt-5">
+    {{-- <div class="d-flex justify-content-end me-4 mt-5">
         <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                 class="bi bi-plus"></i> New Laundry</button>
-    </div>
+    </div> --}}
 
     <div class="card shadow border-0 m-4 p-3">
         <div class="row mb-2">

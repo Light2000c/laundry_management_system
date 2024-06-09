@@ -1,5 +1,4 @@
-body{
-}
+body {}
 
 
 .dark-bg {
@@ -24,4 +23,137 @@ body{
     position: relative;
     z-index: 1;
     color: #ffffff;
+}
+
+.footer-item {
+    color: #171079;
+}
+
+
+.footer-item a{
+   text-decoration: none;
+   color: #000;
+}
+
+.location-item a{
+    text-decoration: none;
+    color: black;
+}
+
+.location-item i{
+    color: #171079;
+}
+
+
+/* Basic CSS for navigation bar */
+nav {
+    background-color: #171079;
+    width: 100%;
+
+    text-align: right;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    display: inline-block;
+}
+
+nav a {
+    display: inline-block;
+    padding: 50px 20px;
+    text-decoration: none;
+    color: white;
+}
+
+nav a:hover {
+    background-color: #9a8105;
+}
+
+.logo1 img {
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: 18px;
+    left: 90px;
+
+}
+
+.logotoo h2 {
+    position: absolute;
+    color: white;
+    left: 240px;
+    top: 40px;
+}
+
+/* slider*/
+
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.footer {
+    background-color: #f2f2f2;
+    padding: 1rem 2rem;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.copyright,
+.footer-nav {
+    flex: 1;
+}
+
+.copyright {
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+.footer-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-nav a {
+    text-decoration: none;
+    color: #333;
+    margin: 0 1rem;
+}
+
+.footer-nav a:hover {
+    color: #000;
+}
+
+.back-to-top {
+    display: none;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Responsive Styles (optional) */
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .copyright,
+    .footer-nav {
+        flex: auto;
+        margin-bottom: 1rem;
+    }
 }

@@ -2,16 +2,6 @@
 
 
 @section('content')
-    <div class="logo1">
-        <img src="./Photos/Dominion university logo 2.png" alt="">
-    </div>
-    <div class="logotoo">
-        <h2>
-            Dominion Laundry Care
-        </h2>
-    </div>
-
-
 
 
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">

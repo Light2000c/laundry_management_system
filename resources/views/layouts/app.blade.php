@@ -4,125 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> --}}
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <link rel="stylesheet" href="css/main.css">
     <title>Home</title>
-    <style>
-        /* Basic CSS for navigation bar */
-        nav {
-            background-color: #171079;
-            width: 100%;
-
-            text-align: right;
-        }
-
-        nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        nav li {
-            display: inline-block;
-        }
-
-        nav a {
-            display: inline-block;
-            padding: 50px 20px;
-            text-decoration: none;
-            color: white;
-        }
-
-        nav a:hover {
-            background-color: #9a8105;
-        }
-
-        .logo1 img {
-            height: 100px;
-            width: 100px;
-            position: absolute;
-            top: 18px;
-            left: 90px;
-
-        }
-
-        .logotoo h2 {
-            position: absolute;
-            color: white;
-            left: 240px;
-            top: 40px;
-        }
-
-        /* slider*/
-
-
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        .footer {
-            background-color: #f2f2f2;
-            padding: 1rem 2rem;
-            text-align: center;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .copyright,
-        .footer-nav {
-            flex: 1;
-        }
-
-        .copyright {
-            font-size: 0.8rem;
-            color: #aaa;
-        }
-
-        .footer-nav {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .footer-nav a {
-            text-decoration: none;
-            color: #333;
-            margin: 0 1rem;
-        }
-
-        .footer-nav a:hover {
-            color: #000;
-        }
-
-        .back-to-top {
-            display: none;
-            color: #333;
-            font-weight: bold;
-        }
-
-        /* Responsive Styles (optional) */
-
-        @media (max-width: 768px) {
-            .footer-content {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .copyright,
-            .footer-nav {
-                flex: auto;
-                margin-bottom: 1rem;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -141,6 +32,15 @@
             </ul>
         </nav>
 
+    </div>
+
+    <div class="logo1">
+        <img src="./Photos/Dominion university logo 2.png" alt="">
+    </div>
+    <div class="logotoo">
+        <h2>
+            Dominion Laundry Care
+        </h2>
     </div>
 
 
@@ -162,30 +62,50 @@
         </div>
     </footer> --}}
 
-    <footer class="footer">
-        <div class="footer-content">
+    <footer class="">
+        <div class="p-4 mb-5 text-white" style="background-color: #171079;">
+            <span><a href="" class="text-light"><i class="bi bi-instagram me-2"></i></a></span>
+            <span><a href="" class="text-light"><i class="bi bi-twitter me-2"></i></a></span>
+            <span><a href="" class="text-light"><i class="bi bi-facebook me-2"></i></a></span>
+            <span><a href="" class="text-light"><i class="bi bi-whatsapp me-2"></i></a></span>
+        </div>
+        <div class="p-4">
             <div class="row">
-                <div class="col">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum quasi dicta quos odio cum, ea
-                    praesentium veritatis ipsa.
-                </div>
-                <div class="col">
-                    <div class="">
-                        <h5>Quick Links</h5>
-                        <p>Home</p>
-                        <p>About</p>
-                        <p>Contact</p>
-                        <p>Services</p>
+                <div class="col-sm-12 col-lg-4 mb-3">
+                    <div>
+                        <h2 class="font-weight-bold" style="color: #171079; font-weight: bold;">
+                            Dominion Laundry Care
+                        </h2>
+                        <p>
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum quasi dicta quos odio cum,
+                            ea
+                            praesentium veritatis ipsa. Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
+                            et
+                            illum commodi.</p>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="">
-                        <h5>Others</h5>
-                        <p>Faq</p>
-                        <p>Price List</p>
-                        <p>Developer</p>
+                <div class="col-sm-12 col-lg-4 d-flex justify-content-start justify-content-lg-center mb-4">
+                    <div class="text-start text-lg-center footer-item">
+                        <h5 class="font-weight-bold">Quick Links</h5>
+                        <p><a href="">Home</a></p>
+                        <p><a href="">About</a></p>
+                        <p><a href="">Contact</a></p>
+                        <p><a href="">Services</a></p>
                     </div>
                 </div>
+                <div class="col-sm-12 col-lg-4 d-flex justify-content-start justify-content-lg-center mb-4">
+                    <div class="text-start text-lg-center footer-item">
+                        <h5 class="font-weight-bold">More</h5>
+                        <p><a href="">Developer</a></p>
+                        <p><a href="">Price List</a></p>
+                        <p><a href="">Faq</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-4 text-white" style="background-color: #171079;">
+            <div>
+                &copy; <?php echo date('Y'); ?> Dominion Laundry Care
             </div>
         </div>
     </footer>
@@ -219,9 +139,12 @@
             });
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script> --}}
 </body>
 
 </html>

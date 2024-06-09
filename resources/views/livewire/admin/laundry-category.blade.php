@@ -16,26 +16,35 @@
                 data-bs-target="#exampleModal"><i class="bi bi-plus"></i> Add Category</button>
         @else
             <button wire:click="hideForm" class="btn btn-outline-primary" type="button" data-bs-toggle="modal"
-                data-bs-target="#exampleModal"><i class="bi bi-plus"></i> Close Form</button>
+                data-bs-target="#exampleModal"> Close Form</button>
         @endIf
     </div>
 
 
     @if ($displayForm)
         <div class="card shadow border-0 m-4 mb-5 p-3">
-            <div class="row">
-                <div class="col-sm-12 col-lg-6 mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Category</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <form wire:submit="send">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6 mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Category Name</label>
+                        <textarea wire:model="name" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        @error('name')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="col-sm-12 col-lg-6 mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Price per kg.</label>
+                        <input wire:model="price" type="number" class="form-control" id="exampleFormControlInput1">
+                        @error('price')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
                 </div>
-                <div class="col-sm-12 col-lg-6 mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Price per kg.</label>
-                    <input type="number" class="form-control" id="exampleFormControlInput1">
+                <div class="d-grid col-sm-12 col-lg-3">
+                    <button type="submit" class="btn btn-primary"
+                        {{ $busy ? 'disabled' : '' }}>{{ $busy ? 'Processing...' : 'Submit' }}</button>
                 </div>
-            </div>
-            <div class="d-grid col-sm-12 col-lg-3">
-                <button class="btn btn-primary">Submit</button>
-            </div>
+            </form>
         </div>
     @endIf
 
@@ -69,23 +78,101 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Clinton Onitsha</td>
-                        <td>30.00</td>
-                        <td>12-02-2020</td>
-                        <td>
-                            <div class="d-flex">
-                                <button class="btn btn-outline-primary btn-sm me-2"><i
-                                        class="bi bi-pencil-square"></i></button>
-                                <button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash3"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-
+                    @foreach ($laundryCategories as $laundryCategory)
+                        <tr>
+                            <th scope="row">{{ $laundryCategory->id }}</th>
+                            <td>{{ $laundryCategory->name }}</td>
+                            <td>{{ number_format($laundryCategory->price) }}</td>
+                            <td>{{ $laundryCategory->created_at }}</td>
+                            <td>
+                                <div class="d-flex">
+                                    <button wire:click="openUpdateModal({{ $laundryCategory->id }})" class="btn btn-outline-primary btn-sm me-2"><i
+                                            class="bi bi-pencil-square"></i></button>
+                                    <button wire:click="deleteCategory({{ $laundryCategory }})" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash3"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 
+    <!-- Modal -->
+    <div wire:ignore.self class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Laundry Category</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="p-3">
+                        <form wire:submit.prevent="updateLaundryCategory" method="post">
+                            <div class="form-group">
+
+
+                                <div class="form-group mb-3">
+                                    <label class="mb-2" for="">Category Name</label>
+                                    <input wire:model="name" type="text" class="form-control">
+                                    @error('name')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="mb-2" for="">Price</label>
+                                    <input wire:model="price" type="number" class="form-control">
+                                    @error('price')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary" {{ $busy ? 'disabled' : '' }}>
+                                        {{ $busy ? 'Processing...' : 'Save Changes' }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <script>
+        window.addEventListener('closeUpdateModal', function(e){
+            $("#updateModal").modal("hide");
+        });
+
+        window.addEventListener('updateModal', function(e){
+            $("#updateModal").modal("show");
+        });
+
+        window.addEventListener('message', function(e) {
+            // console.log("event ==>", e);
+
+            let data = e.detail;
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: data.icon,
+                title: data.title
+            });
+
+        });
+    </script>
 </div>
