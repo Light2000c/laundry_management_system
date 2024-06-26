@@ -25,7 +25,7 @@
         <div class="card shadow border-0 m-4 mb-5 p-3">
             <form wire:submit="send">
                 <div class="row">
-                    <div class="col-sm-12 col-lg-6 mb-3">
+                    <div class="col-12 col-lg-6 mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Category Name</label>
                         <textarea wire:model="name" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                         @error('name')
@@ -51,7 +51,7 @@
     <div class="card shadow border-0 m-4 p-3">
         <div class="d-flex justify-content-end">
             <div class="col-lg-3 col-sm-6 d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <input wire:model.live.debounce.150ms="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">

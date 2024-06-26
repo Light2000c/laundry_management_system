@@ -20,7 +20,7 @@
             <div class="card shadow border-0 m-4 p-3">
                 <div class="d-flex justify-content-end">
                     <div class="col-lg-10 col-sm-10 d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <input  wire:model.live.debounce.150ms="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     </div>
                 </div>
 
@@ -38,7 +38,7 @@
                                 <tr>
                                     <th scope="row">{{ $supply->id }}</th>
                                     <td>{{ $supply->name }}</td>
-                                    <td class="text-end">{{ $supply->availableSupply($supply->id) }}</td>
+                                    <td class="text-end">{{ $supply->total }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

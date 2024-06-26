@@ -14,6 +14,7 @@ class LaundryItem extends Model
     protected $fillable = [
         "laundry_list_id",
         "laundry_category_id",
+        "weight"
     ];
 
     public function laundryList(){

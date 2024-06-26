@@ -15,6 +15,8 @@ class LaundryCategory extends Component
     public $laundryCategories;
     public $activeCategoryId;
 
+    public $search = "";
+
     public $rules = [
         "name" => "required|unique:laundry_categories,name",
         "price" => "required",
@@ -32,9 +34,20 @@ class LaundryCategory extends Component
         return view('livewire.admin.laundry-category');
     }
 
+
+    public function updatedSearch($value)
+    {
+
+        $this->load();
+    }
+
     public function load()
     {
-        $this->laundryCategories = ModelsLaundryCategory::get();
+        if (!$this->search) {
+            $this->laundryCategories = ModelsLaundryCategory::get();
+        } else {
+            $this->laundryCategories = ModelsLaundryCategory::where("name", "LIKE", '%' . $this->search . '%')->get();
+        }
     }
 
 
@@ -106,7 +119,7 @@ class LaundryCategory extends Component
         $laundryCategory->price = $this->price;
         $save = $laundryCategory->save();
 
-        if(!$save){
+        if (!$save) {
             $this->busy = false;
             $this->showAlert("error", "Category was not successfully updated.");
         }
@@ -116,15 +129,15 @@ class LaundryCategory extends Component
         $this->resetFields();
         $this->dispatch("closeUpdateModal");
         $this->showAlert("success", "Category was successfully updated.");
-
     }
 
 
-    public function deleteCategory(ModelsLaundryCategory $laundryCategory){
+    public function deleteCategory(ModelsLaundryCategory $laundryCategory)
+    {
 
         $delete = $laundryCategory->delete();
 
-        if(!$delete){
+        if (!$delete) {
             $this->showAlert("error", "Category was not successfully deleted.");
         }
 

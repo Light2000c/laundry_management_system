@@ -15,6 +15,8 @@ class SupplyList extends Component
     public $supply;
     public $is_update = false;
 
+    public $search = "";
+
     public function mount()
     {
         $this->load();
@@ -25,9 +27,18 @@ class SupplyList extends Component
         return view('livewire.admin.supply-list');
     }
 
+    public function updatedSearch($value){
+        $this->load();
+    }
+
     public function load()
     {
-        $this->supplies = Supply::get();
+        if(!$this->search){
+            $this->supplies = Supply::get();
+        }else{
+            $this->supplies = Supply::where("created_at", "LIKE", '%'.$this->search.'%')->get();
+        }
+
     }
 
     public function showForm()

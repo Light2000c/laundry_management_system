@@ -12,6 +12,7 @@ class SupplyList extends Model
 
     protected $fillable = [
         "name",
+        "total",
     ];
 
     public function inventries(){

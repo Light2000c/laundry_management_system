@@ -21,6 +21,9 @@
     {{-- sweet alert cdn link --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+    <link rel="stylesheet" href="css/main.css">
+
     @livewireStyles
 </head>
 

@@ -3,7 +3,9 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\payment\PaymentController;
 use App\Http\Controllers\ServiceController;
+use App\Livewire\Admin\Blog as AdminBlog;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\EditUser;
 use App\Livewire\Admin\Inventry;
@@ -13,6 +15,9 @@ use App\Livewire\Admin\Report;
 use App\Livewire\Admin\SupplyList;
 use App\Livewire\Admin\User;
 use App\Livewire\Auth\Login;
+use App\Livewire\Pages\Blog;
+use App\Livewire\Pages\BlogDetails;
+use App\Livewire\Pages\Track;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +49,14 @@ Route::get("/contact-us", [ContactController::class, "index"])->name("contact");
 Route::get("/service", [ServiceController::class, "index"])->name("service");
 
 
+Route::get("/track-laundry", Track::class)->name("track");
+
+Route::get("/payment/callback", [PaymentController::class, "handleGatewayCallback"])->name("payment.callback");
+
+Route::get("/blog", Blog::class);
+
+Route::get("/blog-detail", BlogDetails::class);
+
 //admin routes
 Route::group(["middleware" => ['auth'], "prefix" => "admin"], function () {
     Route::get('/dashboard', Dashboard::class)->name("dashboard");
@@ -60,6 +73,8 @@ Route::group(["middleware" => ['auth'], "prefix" => "admin"], function () {
     Route::get('users/{user}', EditUser::class)->name("edit-user");
 
     Route::get('/inventry', Inventry::class)->name("inventry");
+
+    Route::get('/blog', AdminBlog::class);
 });
 
 

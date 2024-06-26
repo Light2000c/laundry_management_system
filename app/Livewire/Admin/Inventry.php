@@ -17,6 +17,8 @@ class Inventry extends Component
     public $inventries;
     public $currentInventryId;
 
+    public $search = "";
+
     public function render()
     {
         return view('livewire.admin.inventry');
@@ -27,10 +29,20 @@ class Inventry extends Component
         $this->load();
     }
 
+    public function updatedSearch($value)
+    {
+        $this->load();
+    }
+
     public function load()
     {
-        $this->supplies = SupplyList::get();
-        $this->inventries = ModelsInventry::get();
+        if (!$this->search) {
+            $this->supplies = SupplyList::get();
+            $this->inventries = ModelsInventry::get();
+        } else {
+            $this->supplies = SupplyList::where("name", "LIKE", '%'.$this->search .'%')->get();
+            $this->inventries = ModelsInventry::get();
+        }
     }
 
 
@@ -49,6 +61,23 @@ class Inventry extends Component
 
         $this->busy = true;
 
+        $supply = SupplyList::find($this->supply_list_id);
+
+
+
+        if ($supply && $this->type === "used") {
+            $total = (int) $supply->total - (int) $validate["quantity"];
+
+            $supply->update([
+                "total" => $total
+            ]);
+        } else {
+            $total = (int) $supply->total + (int) $validate["quantity"];
+
+            $supply->update([
+                "total" => $total
+            ]);
+        }
 
         $create =  ModelsInventry::create($validate);
 
@@ -87,7 +116,8 @@ class Inventry extends Component
     }
 
 
-    public function updateInventry(){
+    public function updateInventry()
+    {
 
         $validate = $this->validate(
             [
@@ -104,7 +134,7 @@ class Inventry extends Component
         $inventry = ModelsInventry::find($this->currentInventryId);
 
         $inventry->supply_list_id = $this->supply_list_id;
-        $inventry->quantity= $this->quantity;
+        $inventry->quantity = $this->quantity;
         $inventry->type = $this->type;
         $saved =  $inventry->save();
 
@@ -122,11 +152,12 @@ class Inventry extends Component
         return $this->dispatch('closeUpdateModal');
     }
 
-    public function deleteInventry(ModelsInventry $inventry){
+    public function deleteInventry(ModelsInventry $inventry)
+    {
 
         $delete = $inventry->delete();
 
-        if(!$delete){
+        if (!$delete) {
             return $this->showAlert("error", "Inventry was not successfully deleted");
         }
 

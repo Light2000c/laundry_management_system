@@ -18,6 +18,8 @@ class User extends Component
     public $displayForm = false;
     public $users;
 
+    public $search = "";
+
     // protected $rules = [
     //     'password' => 'required|string|min:8|confirmed',
     // ];
@@ -39,6 +41,15 @@ class User extends Component
     public function render()
     {
         return view('livewire.admin.user');
+    }
+
+    public function updatedSearch($value){
+
+        if(!$this->search){
+            $this->users = ModelsUser::orderBy("created_at", "DESC")->get();
+        }else{
+            $this->users = ModelsUser::where("name", "LIKE", '%'.$this->search .'%')->orderBy("created_at", "DESC")->get();
+        }
     }
 
 
