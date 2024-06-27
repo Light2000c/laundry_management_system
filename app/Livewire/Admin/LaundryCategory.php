@@ -4,15 +4,20 @@ namespace App\Livewire\Admin;
 
 use App\Models\LaundryCategory as ModelsLaundryCategory;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class LaundryCategory extends Component
 {
+
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
 
     public $displayForm = false;
     public $name;
     public $price;
     public $busy = false;
-    public $laundryCategories;
+    private $laundryCategories;
     public $activeCategoryId;
 
     public $search = "";
@@ -25,13 +30,17 @@ class LaundryCategory extends Component
 
     public function mount()
     {
-        $this->load();
+        // $this->load();
     }
 
 
     public function render()
     {
-        return view('livewire.admin.laundry-category');
+        $this->load();
+
+        return view('livewire.admin.laundry-category', [
+            "laundryCategories" => $this->laundryCategories,
+        ]);
     }
 
 
@@ -44,9 +53,9 @@ class LaundryCategory extends Component
     public function load()
     {
         if (!$this->search) {
-            $this->laundryCategories = ModelsLaundryCategory::get();
+            $this->laundryCategories = ModelsLaundryCategory::paginate(5);
         } else {
-            $this->laundryCategories = ModelsLaundryCategory::where("name", "LIKE", '%' . $this->search . '%')->get();
+            $this->laundryCategories = ModelsLaundryCategory::where("name", "LIKE", '%' . $this->search . '%')->paginate(5);
         }
     }
 

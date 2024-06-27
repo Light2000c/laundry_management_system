@@ -6,20 +6,26 @@ use App\Models\Blog as ModelBlog;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class Blog extends Component
 {
 
     use WithFileUploads;
 
+    use WithPagination;
 
-    public $blogs;
+    protected $paginationTheme = 'bootstrap';
+
+    private $blogs;
     public $title;
     public $image;
     public $description;
     public $busy = false;
     public $activeBlog;
     public $toggle = "option2";
+
+    public $search = "";
 
 
     public $rules = [
@@ -31,19 +37,32 @@ class Blog extends Component
 
     public function mount()
     {
-        $this->load();
+        // $this->load();
     }
 
 
     public function render()
     {
-        return view('livewire.admin.blog');
+        $this->load();
+
+        return view('livewire.admin.blog', [
+            'blogs' => $this->blogs,
+        ]);
     }
 
 
     public function load()
     {
-        $this->blogs = ModelBlog::get();
+        if (!$this->search) {
+            $this->blogs = ModelBlog::paginate(8);
+        } else {
+            $this->blogs = ModelBlog::where("title", '%' . $this->search . '%')->orWhere('description', '%' . $this->search . '%')->paginate(8);
+        }
+    }
+
+    public function updatedSearch($value)
+    {
+        $this->load();
     }
 
 
@@ -118,7 +137,7 @@ class Blog extends Component
             $upload_name = time() . "-" . $this->title . '.' . $this->image->guessExtension();
 
             $upload = $this->image->storeAs('blog_images', $upload_name, 'public');
-    
+
             if (!$upload) {
                 $this->busy = false;
                 $this->showAlert("error", "Something went wrong, please try again.");
@@ -134,7 +153,6 @@ class Blog extends Component
                 $this->busy =  false;
                 $this->showAlert("error", "Blog post was not successfully updated.");
             }
-
         } else {
 
             $this->validate([

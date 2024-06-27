@@ -21,7 +21,7 @@
 
 <body>
 
-    <div class="bar1">
+    {{-- <div class="bar1">
         <nav>
             <ul>
                 <li><a href="#">Home</a></li>
@@ -44,26 +44,71 @@
         <h2>
             Dominion Laundry Care
         </h2>
+    </div> --}}
+
+
+
+    <div>
+        <div class="d-flex justify-content-end bg-light pt-2 pb-2">
+            <marquee class="display" scrolldelay="200" behavior="" direction="left">
+                <a class="me-3">Welcome to Dominion laundry Care</a>
+                <a class="me-3"  href=""><i class="bi bi-envelope-at-fill me-1"></i> example@dominionluandry.com</a>
+                <a  class="me-3" href=""><i class="bi bi-telephone-fill me-1"></i> +234 815 345 3456</a>
+            </marquee>
+        </div>
     </div>
+    <nav class="navbar navbar-expand-md navbar-light  shadow-sm p-sm-4">
+        <div class="container">
+            <a class="navbar-brand" style="font-size: bolder;" href="{{ url('/') }}">
+                <div class="logo1">
+                    <img src="./Photos/Dominion university logo 2.png" alt="">
+                </div>
+            </a>
+            <button class="navbar-toggler bg-light border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="{{ __('Toggle navigation') }}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav me-auto">
+
+                </ul>
+
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav ms-auto mt-3">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Service</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Faq</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Tracking</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
 
     @yield('content')
 
 
 
-    {{-- <footer class="footer">
-        <div class="footer-content">
-            <div class="copyright">
-                &copy; <?php echo date('Y'); ?> Your Company Name
-            </div>
-            <nav class="footer-nav">
-                <a href="#">About Us</a>
-                <a href="#">Contact</a>
-                <a href="#">Terms & Conditions</a>
-            </nav>
-            <a href="#" class="back-to-top">Back to Top</a>
-        </div>
-    </footer> --}}
 
     <footer class="">
         <div class="p-4 mb-5 text-white" style="background-color: #171079;">
@@ -148,18 +193,20 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script> --}}
-    
+
     <!--Start of Tawk.to Script-->
-<script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/61a2292853b398095a665a89/1i0jauki6';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/61a2292853b398095a665a89/1i0jauki6';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
     </script>
     <!--End of Tawk.to Script-->
 </body>

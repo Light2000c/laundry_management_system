@@ -127,6 +127,7 @@
                 </tbody>
             </table>
         </div>
+        {{  $users->withQueryString()->links() }}
     </div>
 
 

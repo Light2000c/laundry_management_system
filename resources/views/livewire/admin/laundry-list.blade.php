@@ -38,6 +38,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Customer Name</th>
+                        <th scope="col">Customer Name</th>
                         <th scope="col">Date</th>
                         <th scope="col">Queue</th>
                         <th scope="col">Reference</th>
@@ -50,6 +51,7 @@
                         <tr>
                             <th scope="row">{{ $list_item->id }}</th>
                             <td>{{ $list_item->customer_name }}</td>
+                            <td>{{ $list_item->email }}</td>
                             <td>{{ $list_item->created_at }}</td>
                             <td>{{ $list_item->queue }}</td>
                             <td>{{ $list_item->reference }}</td>
@@ -68,6 +70,9 @@
                                     <button wire:click="openUpdateModal({{ $list_item->id }})"
                                         class="btn btn-outline-primary btn-sm me-2"><i
                                             class="bi bi-pencil-square"></i></button>
+                                            <button wire:click="generateNewPdf({{ $list_item->id }})"
+                                                class="btn btn-outline-primary btn-sm me-2"><i
+                                                    class="bi bi-printer-fill"></i></button>
                                     <button wire:click="deleteLaundry({{ $list_item->id }})" class="btn btn-outline-primary btn-sm"><i class="bi bi-trash3"></i></button>
                                 </div>
                             </td>
@@ -76,6 +81,8 @@
                 </tbody>
             </table>
         </div>
+
+        {{ $laundry_lists->withQueryString()->links() }}
     </div>
 
 

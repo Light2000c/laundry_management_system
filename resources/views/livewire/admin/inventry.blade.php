@@ -18,11 +18,11 @@
     <div class="row">
         <div class="col-sm-12 col-lg-4">
             <div class="card shadow border-0 m-4 p-3">
-                <div class="d-flex justify-content-end">
+                {{-- <div class="d-flex justify-content-end">
                     <div class="col-lg-10 col-sm-10 d-flex">
                         <input  wire:model.live.debounce.150ms="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="table-responsive mt-4">
                     <table class="table table-bordered table-striped table-hover" style="overflow-x: auto;">
@@ -51,7 +51,7 @@
             <div class="card shadow border-0 m-4 p-3">
                 <div class="d-flex justify-content-end">
                     <div class="col-lg-3 col-sm-6 d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <input wire:model.live.debounce.150ms="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
@@ -104,6 +104,8 @@
                         </tbody>
                     </table>
                 </div>
+
+                {{ $inventries->withQueryString()->links() }}
             </div>
         </div>
     </div>

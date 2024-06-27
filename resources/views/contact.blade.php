@@ -64,6 +64,13 @@
         </div>
 
 
+        <div class="row">
+            <div class="col">
+                <div><iframe width="1200" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" src="https://maps.google.com/maps?width=1200&amp;height=400&amp;hl=en&amp;q=%20Ibeju%20Lekki+(Dominion%20LAundry)&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe> <a href='https://www.krankenversicherungsvergleich.at/'>Krankenversicherung Rechner</a> <script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=8fbe8183353981fd2b7e355d82499dbe1dc7dea1'></script></div>
+            </div>
+        </div>
+
+
 
     </div>
 @endsection

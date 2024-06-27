@@ -96,6 +96,7 @@
                 </tbody>
             </table>
         </div>
+        {{ $laundryCategories->withQueryString()->links() }}
     </div>
 
     <!-- Modal -->

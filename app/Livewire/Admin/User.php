@@ -6,17 +6,23 @@ use App\Models\User as ModelsUser;
 use Exception;
 use Livewire\Component;
 use Illuminate\Http\Request;
+use Livewire\WithPagination;
 
 class User extends Component
 {
 
+
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
+    private $users;
     public $name;
     public $username;
     public $email;
     public $password;
     public $password_confirmation;
     public $displayForm = false;
-    public $users;
 
     public $search = "";
 
@@ -28,27 +34,33 @@ class User extends Component
 
     public function mount()
     {
-        $this->refresh();
+        // $this->load();
     }
 
 
-    public function refresh()
-    {
-        $this->users = ModelsUser::orderBy("created_at", "DESC")->get();
-    }
 
 
     public function render()
     {
-        return view('livewire.admin.user');
+        $this->load();
+        
+        return view('livewire.admin.user', [
+            "users" => $this->users,
+        ]);
     }
 
-    public function updatedSearch($value){
+    public function updatedSearch($value)
+    {
 
-        if(!$this->search){
-            $this->users = ModelsUser::orderBy("created_at", "DESC")->get();
-        }else{
-            $this->users = ModelsUser::where("name", "LIKE", '%'.$this->search .'%')->orderBy("created_at", "DESC")->get();
+        $this->load();
+    }
+
+    public function load()
+    {
+        if (!$this->search) {
+            $this->users = ModelsUser::orderBy("created_at", "DESC")->paginate(5);
+        } else {
+            $this->users = ModelsUser::where("name", "LIKE", '%' . $this->search . '%')->orderBy("created_at", "DESC")->paginate(5);
         }
     }
 
@@ -81,7 +93,7 @@ class User extends Component
                 return $this->showAlert("error", "Something went wrong, please try again");
             }
 
-            $this->refresh();
+            $this->load();
             return $this->showAlert("success", "New user has been successfully added.");
         } catch (Exception $e) {
             $this->showAlert("error", "Something went wrong, please try again");
@@ -111,7 +123,7 @@ class User extends Component
             $this->showAlert("error", "User was not successfully deleted");
         }
 
-          $this->refresh();
+        $this->load();
         $this->showAlert("success", "User has been successfully deleted.");
     }
 }

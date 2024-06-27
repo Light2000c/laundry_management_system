@@ -82,6 +82,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{  $supplies->withQueryString()->links() }}
             </div>
         </div>
     </div>

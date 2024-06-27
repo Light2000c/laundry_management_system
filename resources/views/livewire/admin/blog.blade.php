@@ -17,7 +17,7 @@
     <div class="card shadow border-0 m-4 p-3">
         <div class="row d-flex justify-content-end">
             <div class="col-11 col-lg-3 d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <input wire:model.live.debounce.150ms="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -72,6 +72,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{  $blogs->withQueryString()->links() }}
             </div>
         </div>
 

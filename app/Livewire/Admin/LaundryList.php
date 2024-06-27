@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Admin;
 
+use App\Mail\LaundryMail;
 use App\Models\LaundryCategory;
 use App\Models\LaundryItem;
 use App\Models\LaundryList as ModelsLaundryList;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,10 +15,13 @@ class LaundryList extends Component
 
     use WithPagination;
 
-    public $laundry_lists;
+    protected $paginationTheme = 'bootstrap';
+
+
+    private $laundry_lists;
+    public $laundry_categories;
     public $active_laundry;
     public $laundry_items = array();
-    public $laundry_categories;
     public $category_id;
     public $weight;
     public $errorMessage;
@@ -48,27 +53,30 @@ class LaundryList extends Component
     public function mount()
     {
 
-        $this->load();
+        // $this->load();
     }
 
     public function render()
     {
 
+        $this->load();
 
-        return view('livewire.admin.laundry-list');
+        return view('livewire.admin.laundry-list', [
+            "laundry_lists" => $this->laundry_lists,
+        ]);
     }
 
     public function updatedSearch($value)
     {
-       $this->load();
+        $this->load();
     }
 
     public function load()
     {
-        if(!$this->search){
-            $this->laundry_lists = ModelsLaundryList::get();
-        }else{
-            $this->laundry_lists = ModelsLaundryList::where("customer_name", "LIKE", '%'.$this->search.'%')->orWhere("reference", "LIKE", '%'.$this->search.'%')->get();
+        if (!$this->search) {
+            $this->laundry_lists = ModelsLaundryList::paginate(5);
+        } else {
+            $this->laundry_lists = ModelsLaundryList::where("customer_name", "LIKE", '%' . $this->search . '%')->orWhere("reference", "LIKE", '%' . $this->search . '%')->paginate(5);
         }
 
         $this->laundry_categories = LaundryCategory::get();
@@ -82,6 +90,8 @@ class LaundryList extends Component
         $this->customer_name = "";
         $this->email = "";
         $this->remark = "";
+        $this->errorMessage = "";
+        $this->resetPage();
     }
 
 
@@ -238,28 +248,24 @@ class LaundryList extends Component
 
 
         $this->errorMessage = "";
+        
 
-        // dd($this->weights);
-
-
+        if($this->busy){
+            return;
+        }
 
         $this->validate($this->rules);
-
 
         if ($this->laundry_items) {
             $this->validate($this->weightRules);
         }
-
 
         if (!$this->laundry_items) {
             $this->busy = false;
             return $this->errorMessage = "You haven't added any item to the list";
         }
 
-
         $this->generateReference();
-
-
 
         $this->busy = true;
 
@@ -275,9 +281,6 @@ class LaundryList extends Component
             return;
         }
 
-
-
-
         foreach ($this->laundry_items as $item) {
             LaundryItem::create([
                 "laundry_list_id" => $laundry->id,
@@ -285,6 +288,12 @@ class LaundryList extends Component
                 "weight" => $item["weight"]
             ]);
         }
+
+        $details = [
+            "data" => $laundry,
+        ];
+
+       $this->sendMail($details);
 
         $this->busy = false;
         $this->load();
@@ -421,7 +430,16 @@ class LaundryList extends Component
 
     }
 
+    public function generateNewPdf($id)
+    {
 
+        return redirect()->route("generate-pdf", ["id" => $id]);
+    }
+
+    public function sendMail($details)
+    {
+      Mail::to($details["data"]->email)->send(new LaundryMail($details));
+    }
 
 
     public function showAlert($icon, $title)

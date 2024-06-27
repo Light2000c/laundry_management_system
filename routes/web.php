@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\payment\PaymentController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ServiceController;
 use App\Livewire\Admin\Blog as AdminBlog;
 use App\Livewire\Admin\Dashboard;
@@ -55,7 +56,9 @@ Route::get("/payment/callback", [PaymentController::class, "handleGatewayCallbac
 
 Route::get("/blog", Blog::class);
 
-Route::get("/blog-detail", BlogDetails::class);
+Route::get("/blog/{blog}", BlogDetails::class);
+
+Route::get("/generate-pdf/{id}", [PDFController::class, "index"])->name("generate-pdf");
 
 //admin routes
 Route::group(["middleware" => ['auth'], "prefix" => "admin"], function () {

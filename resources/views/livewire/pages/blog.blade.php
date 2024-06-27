@@ -21,42 +21,36 @@
     <div class="container pt-5 pb-5 mb-5">
 
         <div class="mb-5">
+
             <div class="row mb-5">
-                <div class="col-12 col-lg-4 h-100">
-                    <livewire:components.blog-post />
-                </div>
-                <div class="col-12 col-lg-4 h-100">
-                    <livewire:components.blog-post />
-                </div>
-                <div class="col-12 col-lg-4 h-100">
-                    <h5 class="">Latest Posts</h5>
-                    <hr>
-                    <livewire:components.blog-post-text :title="'Laundry Mistakes to Avoid'">
+                @foreach ($blogs as $blog)
+                    @if ($loop->index <= 1)
+                        <div class="col-12 col-lg-4 h-100 mb-5">
+                            <livewire:components.blog-post :blog="$blog" />
+                        </div>
+                    @else
+                        <div class="col-12 col-lg-3 h-100 mb-5">
+                            <livewire:components.blog-post  :blog="$blog" />
+                        </div>
+                    @endif
 
-                        <livewire:components.blog-post-text :title="'Essential Laundry Tools and Accessories'">
-
-                            <livewire:components.blog-post-text :title="'Choosing the Right Detergent for Your Clothes'">
-                </div>
-
+                    @if ($loop->index === 1)
+                        <div class="col-12 col-lg-4 h-100 mb-5">
+                            <h5 class="">Latest Posts</h5>
+                            <hr>
+                            @foreach($latests as $latest)
+                            <livewire:components.blog-post-text :blog="$latest">
+                            @endforeach
+                        </div>
+                    @endif
+                @endforeach
 
             </div>
-        </div>
+             {{ $blogs->withQueryString()->links() }}
+            <div>
 
-        <div class="mt-5">
-            <div class="row">
-                <div class="col-10 col-lg-3">
-                    <livewire:components.blog-post />
-                </div>
-                <div class="col-10 col-lg-3">
-                    <livewire:components.blog-post />
-                </div>
-                <div class="col-10 col-lg-3">
-                    <livewire:components.blog-post />
-                </div>
-                <div class="col-10 col-lg-3">
-                    <livewire:components.blog-post />
-                </div>
             </div>
         </div>
     </div>
+
 </div>

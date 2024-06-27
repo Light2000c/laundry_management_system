@@ -121,8 +121,9 @@
                                                 <button wire:click="openItemsModal({{ $item->id }})"
                                                     class="btn btn-outline-primary btn-sm me-2"><i
                                                         class="bi bi-eye"></i></button>
-                                                <button wire:click="openItemsModal({{ $item->id }})"
-                                                    class="btn btn-outline-primary btn-sm me-2"><i class="bi bi-printer-fill"></i></button>
+                                                <button wire:click="generateNewPdf({{ $item->id }})"
+                                                    class="btn btn-outline-primary btn-sm me-2"><i
+                                                        class="bi bi-printer-fill"></i></button>
                                                 <button wire:click="pay({{ $item }})"
                                                     class="btn btn-outline-primary btn-sm me-2"><i
                                                         class="bi bi-credit-card"></i> Pay</button>
@@ -167,6 +168,7 @@
                             @endif
                         </p>
                         <p>Total Item: {{ $this->getItemsCount($active_laundry->id ?? '') }}</p>
+                        <p>Paid At: {{ $active_laundry->paid_at ?? '' }} </p>
                     </div>
 
                     <div>
@@ -200,7 +202,16 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <p>Laundry ID: {{ $active_laundry->reference ?? '' }}</p>
+                    <div class="row d-flex jusify-content-between">
+                        <div class="col">
+                            <button wire:click="generateNewPdf({{ $active_laundry->id ?? '' }})"
+                                class="btn btn-outline-danger">Generate Receit</button>
+                        </div>
+                        <div class="col">
+                            <p>Laundry ID: {{ $active_laundry->reference ?? '' }}</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

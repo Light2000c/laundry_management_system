@@ -121,6 +121,11 @@ class Track extends Component
         return time().random_int(0, 99);
     }
 
+    public function generateNewPdf($id){
+
+        return redirect()->route("generate-pdf", ["id" => $id]);
+    }
+
     public function showAlert($title, $text, $icon)
     {
 

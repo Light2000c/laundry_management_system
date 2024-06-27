@@ -5,23 +5,33 @@ namespace App\Livewire\Admin;
 use App\Models\Inventry as ModelsInventry;
 use App\Models\SupplyList;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Inventry extends Component
 {
 
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
+    private $inventries;
     public $supply_list_id;
     public $quantity;
     public $type;
     public $busy = false;
     public $supplies;
-    public $inventries;
     public $currentInventryId;
 
     public $search = "";
 
     public function render()
     {
-        return view('livewire.admin.inventry');
+
+        $this->load();
+
+        return view('livewire.admin.inventry', [
+            "inventries" => $this->inventries
+        ]);
     }
 
     public function mount()
@@ -37,12 +47,12 @@ class Inventry extends Component
     public function load()
     {
         if (!$this->search) {
-            $this->supplies = SupplyList::get();
-            $this->inventries = ModelsInventry::get();
+            $this->inventries = ModelsInventry::paginate(5);
         } else {
-            $this->supplies = SupplyList::where("name", "LIKE", '%'.$this->search .'%')->get();
-            $this->inventries = ModelsInventry::get();
+            $this->inventries = ModelsInventry::where("created_at", "LIKE", '%' . $this->search . '%')->paginate(5);
         }
+
+        $this->supplies = SupplyList::get();
     }
 
 
@@ -64,22 +74,31 @@ class Inventry extends Component
         $supply = SupplyList::find($this->supply_list_id);
 
 
+        $create = "";
 
         if ($supply && $this->type === "used") {
             $total = (int) $supply->total - (int) $validate["quantity"];
 
-            $supply->update([
-                "total" => $total
-            ]);
+            if ((int)$total < 0) {
+                $this->busy = false;
+                return $this->showAlert("error", "Available " . $supply->name . " is less than " . $validate["quantity"]);
+            } else {
+
+                $supply->update([
+                    "total" => $total
+                ]);
+                $create =  ModelsInventry::create($validate);
+            }
         } else {
             $total = (int) $supply->total + (int) $validate["quantity"];
 
             $supply->update([
                 "total" => $total
             ]);
+            $create =  ModelsInventry::create($validate);
         }
 
-        $create =  ModelsInventry::create($validate);
+
 
         if (!$create) {
             $this->busy = false;
@@ -100,6 +119,7 @@ class Inventry extends Component
         $this->supply_list_id = "";
         $this->quantity = "";
         $this->type = "";
+        $this->busy = false;
 
         $this->dispatch('showCreateModal');
     }
@@ -111,6 +131,7 @@ class Inventry extends Component
         $this->supply_list_id = $inventry->supply_list_id;
         $this->quantity = $inventry->quantity;
         $this->type = $inventry->type;
+        $this->busy = false;
 
         $this->dispatch('showUpdateModal', ['id' => $inventry->id]);
     }

@@ -17,7 +17,7 @@
     {{-- sweet alert cdn link --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="/css/main.css">
 
     <title>Home</title>
 
@@ -25,31 +25,62 @@
 </head>
 
 <body>
-
-    <div class="bar1">
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="./Laundryaboutus.html">About us</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Calculator</a></li>
-                <li><a href="#">Pricing</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Contact us</a></li>
-                <li><a href="#">Order</a></li>
-            </ul>
-        </nav>
-
+    <div>
+        <div class="d-flex justify-content-end bg-light pt-2 pb-2">
+            <marquee class="display" scrolldelay="200" behavior="" direction="left">
+                <a class="me-3">Welcome to Dominion laundry Care</a>
+                <a class="me-3" href=""><i class="bi bi-envelope-at-fill me-1"></i>
+                    example@dominionluandry.com</a>
+                <a class="me-3" href=""><i class="bi bi-telephone-fill me-1"></i> +234 815 345 3456</a>
+            </marquee>
+        </div>
     </div>
+    <nav class="navbar navbar-expand-md navbar-light  shadow-sm p-sm-4">
+        <div class="container">
+            <a class="navbar-brand" style="font-size: bolder;" href="{{ url('/') }}">
+                <div class="logo1">
+                    <img src="../Photos/Dominion university logo 2.png" alt="">
+                </div>
+            </a>
+            <button class="navbar-toggler bg-light border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="{{ __('Toggle navigation') }}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <div class="logo1">
-        <img src="./Photos/Dominion university logo 2.png" alt="">
-    </div>
-    <div class="logotoo">
-        <h2>
-            Dominion Laundry Care
-        </h2>
-    </div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav me-auto">
+
+                </ul>
+
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav ms-auto mt-3">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Service</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Faq</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Tracking</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     {{ $slot }}
 

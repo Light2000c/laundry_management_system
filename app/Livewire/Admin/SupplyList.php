@@ -4,14 +4,19 @@ namespace App\Livewire\Admin;
 
 use Livewire\Component;
 use App\Models\SupplyList as Supply;
+use Livewire\WithPagination;
 
 class SupplyList extends Component
 {
 
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
+    private $supplies;
     public $name;
     public $displayForm = false;
     public $busy = false;
-    public $supplies;
     public $supply;
     public $is_update = false;
 
@@ -19,26 +24,30 @@ class SupplyList extends Component
 
     public function mount()
     {
-        $this->load();
+        // $this->load();
     }
 
     public function render()
     {
-        return view('livewire.admin.supply-list');
+        $this->load();
+
+        return view('livewire.admin.supply-list', [
+            "supplies" => $this->supplies,
+        ]);
     }
 
-    public function updatedSearch($value){
+    public function updatedSearch($value)
+    {
         $this->load();
     }
 
     public function load()
     {
-        if(!$this->search){
-            $this->supplies = Supply::get();
-        }else{
-            $this->supplies = Supply::where("created_at", "LIKE", '%'.$this->search.'%')->get();
+        if (!$this->search) {
+            $this->supplies = Supply::paginate(5);
+        } else {
+            $this->supplies = Supply::where("created_at", "LIKE", '%' . $this->search . '%')->paginate(5);
         }
-
     }
 
     public function showForm()
@@ -54,14 +63,13 @@ class SupplyList extends Component
     public function send()
     {
 
-        if(!$this->is_update){
-          return  $this->create();
+        if (!$this->is_update) {
+            return  $this->create();
         }
 
-        if($this->is_update){
+        if ($this->is_update) {
             return $this->update($this->supply);
         }
-
     }
 
     public function create()
@@ -90,8 +98,8 @@ class SupplyList extends Component
     public function update(Supply $supply)
     {
 
-        
-        if($supply->name !== $this->name){
+
+        if ($supply->name !== $this->name) {
             $this->validate([
                 "name" => "required|unique:supply_lists,name",
             ]);
@@ -109,10 +117,10 @@ class SupplyList extends Component
         $this->resetField();
         $this->load();
         return $this->showAlert("success", "Supply has been successfuly updated.");
-
     }
 
-    public function isUpdate(Supply $supply){
+    public function isUpdate(Supply $supply)
+    {
         $this->is_update = true;
 
         $this->name = $supply->name;
