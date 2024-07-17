@@ -8,7 +8,7 @@
 
                 {{-- <h5 class="text-center" style="font-weight: bold;">Login to Continue</h5> --}}
                 <div class="d-flex justify-content-center mb-3">
-                    <img src="./Photos/Dominion university logo 2.png" class="img-thumbnail border-0" alt=""
+                    <img src="../Photos/Dominion university logo 2.png" class="img-thumbnail border-0" alt=""
                         width="100px" width="">
                 </div>
 
@@ -40,18 +40,8 @@
                             @enderror
                         </div>
 
-                        {{-- <div class="input-group mb-4">
-                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope-at-fill"></i></span>
-                                <input type="email" class="form-control" placeholder="name@example.com" aria-label="Username" aria-describedby="basic-addon1">
-                              </div>
-
-                            <div class="input-group mb-4">
-                                <span class="input-group-text" id="basic-addon1"><i class="bi bi-key-fill"></i></span>
-                                <input type="password" class="form-control" placeholder="Enter Your Password" aria-label="Username" aria-describedby="basic-addon1">
-                              </div> --}}
-
                         <div class="mb-3 text-end">
-                            <a href="" style="text-decoration: none; font-weight: bold;">Forget Password?</a>
+                            <a href="{{ route("reset-password") }}" style="text-decoration: none; font-weight: bold;">Forget Password?</a>
                         </div>
 
                         <div class="d-grid">

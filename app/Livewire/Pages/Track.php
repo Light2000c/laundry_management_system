@@ -54,6 +54,7 @@ class Track extends Component
             return $this->showAlert("Track Laundry", "We couldn't find any laundry associated with tracking number " . $this->keyword, "info");
         }
 
+       
 
         $this->busy = false;
         $this->laundry_lists = $laundry;
@@ -109,6 +110,20 @@ class Track extends Component
             dd($e->getMessage());
             // return Redirect::back()->withMessage(['msg' => 'The paystack token has expired. Please refresh the page and try again.', 'type' => 'error']);
         }
+    }
+
+    public function getTotal($laundryId){
+
+        $amount = 0;
+
+        $laundry_items = LaundryItem::where("laundry_list_id", $laundryId)->get();
+
+
+        foreach($laundry_items as $item){
+            $amount = $amount + ($item->weight * $item->laundryCategory->price);
+        }
+
+        return $amount;
     }
 
     public function refresh()

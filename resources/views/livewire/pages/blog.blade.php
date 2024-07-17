@@ -23,7 +23,7 @@
         <div class="mb-5">
 
             <div class="row mb-5">
-                @foreach ($blogs as $blog)
+                {{-- @foreach ($blogs as $blog)
                     @if ($loop->index <= 1)
                         <div class="col-12 col-lg-4 h-100 mb-5">
                             <livewire:components.blog-post :blog="$blog" />
@@ -38,19 +38,42 @@
                         <div class="col-12 col-lg-4 h-100 mb-5">
                             <h5 class="">Latest Posts</h5>
                             <hr>
-                            @foreach($latests as $latest)
-                            <livewire:components.blog-post-text :blog="$latest">
+                            @foreach ($latests as $latest)
+                            <livewire:components.blog-post-text :blog="$latest" />
                             @endforeach
+                        </div>
+                    @endif
+                @endforeach --}}
+
+            </div>
+
+            <div class="row mb-5">
+                    <div class="col-12 col-lg-4 h-100 mb-5">
+                        <h5 class="">Latest Posts</h5>
+                        <hr>
+                        @foreach ($latests as $latest)
+                            <livewire:components.blog-post-text :blog="$latest" />
+                        @endforeach
+                    </div>
+
+                @foreach ($blogs as $blog)
+                    @if ($loop->index <= 1)
+                        <div class="col-12 col-lg-4 h-100 mb-5">
+                            <livewire:components.blog-post :blog="$blog" />
+                        </div>
+                    @else
+                        <div class="col-12 col-lg-3 h-100 mb-5">
+                            <livewire:components.blog-post :blog="$blog" />
                         </div>
                     @endif
                 @endforeach
 
             </div>
-             {{ $blogs->withQueryString()->links() }}
-            <div>
 
-            </div>
+            {{ $blogs->withQueryString()->links() }}
+
         </div>
     </div>
+</div>
 
 </div>

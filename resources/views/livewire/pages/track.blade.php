@@ -91,6 +91,7 @@
                                     <th scope="col">Queue</th>
                                     <th scope="col">Reference</th>
                                     <th scope="col">Status</th>
+                                    <th scope="col">Amount</th>
                                     <th scope="col">Paid_at</th>
                                     <th scope="col">Created_at</th>
                                     <th scope="col">Action</th>
@@ -115,6 +116,7 @@
 
                                         </td>
                                         <td>{{ $item->paid_at }}</td>
+                                        <td>₦{{ number_format($this->getTotal($item->id)) }}</td>
                                         <td>{{ $item->created_at }}</td>
                                         <td>
                                             <div class="d-flex">

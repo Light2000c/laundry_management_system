@@ -31,7 +31,7 @@
             </div>
             <div class="col-12 col-lg-6 mb-3">
                 <div class="">
-                    <img class="container-fluid" src="images/about-1.jpeg" alt="">
+                    <img class="container-fluid" src="images/laundry-diff.jpg" alt="">
                 </div>
             </div>
         </div>

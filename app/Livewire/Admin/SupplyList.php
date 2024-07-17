@@ -44,9 +44,9 @@ class SupplyList extends Component
     public function load()
     {
         if (!$this->search) {
-            $this->supplies = Supply::paginate(5);
+            $this->supplies = Supply::orderBy("created_at", "DESC")->paginate(10);
         } else {
-            $this->supplies = Supply::where("created_at", "LIKE", '%' . $this->search . '%')->paginate(5);
+            $this->supplies = Supply::orderBy("created_at", "DESC")->where("created_at", "LIKE", '%' . $this->search . '%')->paginate(10);
         }
     }
 

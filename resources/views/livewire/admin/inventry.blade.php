@@ -3,7 +3,7 @@
         <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
             aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Supply List</li>
             </ol>
         </nav>
@@ -51,7 +51,8 @@
             <div class="card shadow border-0 m-4 p-3">
                 <div class="d-flex justify-content-end">
                     <div class="col-lg-3 col-sm-6 d-flex">
-                        <input wire:model.live.debounce.150ms="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <input wire:model.live.debounce.150ms="search" class="form-control me-2" type="search"
+                            placeholder="Search" aria-label="Search">
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
@@ -96,7 +97,8 @@
                                     <button wire:click="openUpdateModal({{ $inventry->id }})"
                                         class="btn btn-outline-primary btn-sm me-2"><i
                                             class="bi bi-pencil-square"></i></button>
-                                    <button wire:click="deleteInventry({{ $inventry->id }})" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash3"></i></button>
+                                    <button wire:click="deleteInventry({{ $inventry->id }})"
+                                        class="btn btn-outline-danger btn-sm"><i class="bi bi-trash3"></i></button>
                                 </div>
                             </td>
                             </tr>
@@ -160,7 +162,9 @@
 
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-primary"
-                                        {{ $busy ? 'disabled' : '' }}>{{ $busy ? 'Procesing...' : 'Save' }}</button>
+                                        wire:loading.remove>Send</button>
+                                    <button type="submit" class="btn btn-primary"
+                                        wire:loading wire:target="send" disabled>Processing....</button>
                                 </div>
                             </div>
                         </form>
@@ -220,8 +224,12 @@
                                 </div>
 
                                 <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary" {{ $busy ? 'disabled' : '' }}>
-                                        {{ $busy ? 'Processing...' : 'Save Changes' }}
+                                    <button type="submit" class="btn btn-primary" wire:loading.remove>
+                                        Save Changes
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" wire:loading 
+                                        wire:target="updateInventry">
+                                        Processing.....
                                     </button>
                                 </div>
                             </div>

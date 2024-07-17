@@ -39,7 +39,7 @@ class Login extends Component
             if (Auth::attempt($validated, true)) {
                 $this->busy = false;
 
-                $this->redirect("/admin/dashboard", navigate: true);
+                $this->redirect("/admin/dashboard");
             }
 
 

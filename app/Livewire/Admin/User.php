@@ -58,9 +58,9 @@ class User extends Component
     public function load()
     {
         if (!$this->search) {
-            $this->users = ModelsUser::orderBy("created_at", "DESC")->paginate(5);
+            $this->users = ModelsUser::orderBy("created_at", "DESC")->paginate(10);
         } else {
-            $this->users = ModelsUser::where("name", "LIKE", '%' . $this->search . '%')->orderBy("created_at", "DESC")->paginate(5);
+            $this->users = ModelsUser::where("name", "LIKE", '%' . $this->search . '%')->orderBy("created_at", "DESC")->paginate(10);
         }
     }
 
@@ -79,6 +79,7 @@ class User extends Component
 
     public function createUser()
     {
+
         $user =   $this->validate([
             'name' => "required",
             'email' => "required|unique:users,email",
@@ -94,12 +95,24 @@ class User extends Component
             }
 
             $this->load();
+            $this->resetFields();
             return $this->showAlert("success", "New user has been successfully added.");
         } catch (Exception $e) {
             $this->showAlert("error", "Something went wrong, please try again");
         }
 
+        $this->resetFields();
         return;
+    }
+
+    Public function resetFields(){
+        $this->users = "";
+        $this->name = "";
+        $this->username = "";
+        $this->email = "";
+        $this->password = "";
+        $this->password_confirmation = "";
+        $this->displayForm = false;
     }
 
 

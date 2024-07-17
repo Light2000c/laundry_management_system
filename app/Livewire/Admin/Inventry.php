@@ -47,9 +47,9 @@ class Inventry extends Component
     public function load()
     {
         if (!$this->search) {
-            $this->inventries = ModelsInventry::paginate(5);
+            $this->inventries = ModelsInventry::paginate(10);
         } else {
-            $this->inventries = ModelsInventry::where("created_at", "LIKE", '%' . $this->search . '%')->paginate(5);
+            $this->inventries = ModelsInventry::where("created_at", "LIKE", '%' . $this->search . '%')->paginate(10);
         }
 
         $this->supplies = SupplyList::get();

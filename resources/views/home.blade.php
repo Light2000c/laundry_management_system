@@ -15,22 +15,22 @@
             <div class="carousel-item active">
                 <img src="./Photos/cloth1.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Explore</h5>
-                    <p>Exploring the world</p>
+                    <h5>Wash & Fold</h5>
+                    <p>Convenient and efficient laundry service.</p>
                 </div>
             </div>
             <div class="carousel-item">
                 <img src="./Photos/cloth 2.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Second slide label</h5>
-                    <p>Some representative placeholder content for the second slide.</p>
+                    <h5>New Customer Discount</h5>
+                    <p>Get 20% off your first order.</p>
                 </div>
             </div>
             <div class="carousel-item">
                 <img src="./Photos/cloth 3.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Third slide label</h5>
-                    <p>Some representative placeholder content for the third slide.</p>
+                    <h5>Customer Testimonial</h5>
+                    <p>Excellent service, always reliable and fast.</p>
                 </div>
             </div>
 
@@ -54,7 +54,7 @@
             <div class="row mt-5 mb-5 g-5">
                 <div class="col-12 col-lg-6 mb-2">
                     <div class="">
-                        <img class="img-fluid" src="images/about-1.jpeg" alt="">
+                        <img class="img-fluid" src="images/laundry-diff.jpg" alt="">
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 mb-2 align-self-center">
@@ -69,7 +69,7 @@
                             experience and expertise to the table. </p>
 
                         <div>
-                            <button class="btn btn-outline-primary">Read More</button>
+                            <a href="{{ route('about') }}" class="btn btn-outline-primary">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -147,79 +147,7 @@
     </section>
     {{-- end of why choose us --}}
 
-    {{-- Beginning of what they say about use --}}
-    <div class="container mt-5">
-        <div class="row justify-content-center mb-5">
-            <div class="col-sm-12 col-lg-10">
-
-                <div class="row justify-content-center mt-5 mb-5">
-                    <div class="col-lg-8 text-start text-lg-center">
-                        <h6 class="text-primary">TESTIMONIALS</h6>
-                        <h3 class="" style="font-size: 40px; font-weight: bolder;">Hear What Our Clients Says
-                        </h3>
-                    </div>
-                </div>
-
-                {{-- Beginning of carousel --}}
-                <div id="carouselExampleAutoplaying" class="carousel slide  border pt-5 pb-5" data-bs-ride="carousel">
-                    <div class="carousel-inner ">
-                        <div class="carousel-item active">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-7 text-center">
-                                    <div class="mb-5">
-                                        <i class="bi bi-quote" style="font-size: 30px;"></i>
-                                    </div>
-                                    <h5>Maria Smantha</h5>
-                                    <p>Newyork, USA</p>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse architecto expedita
-                                        quod qui pariatur vitae accusantium. Voluptate laboriosam, dignissimos quo quisquam,
-                                        fugiat laudantium.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item ">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-7 text-center">
-                                    <div class="mb-5">
-                                        <i class="bi bi-quote" style="font-size: 30px;"></i>
-                                    </div>
-                                    <h5>David Greg</h5>
-                                    <p>London, Uk</p>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse architecto expedita
-                                        quod qui pariatur vitae accusantium. Voluptate laboriosam, dignissimos quo quisquam,
-                                        fugiat laudantium.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-7 text-center">
-                                    <div class="mb-5">
-                                        <i class="bi bi-quote" style="font-size: 30px;"></i>
-                                    </div>
-                                    <h5>Shine Peter</h5>
-                                    <p>Ontario, CANADA</p>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse architecto expedita
-                                        quod qui pariatur vitae accusantium. Voluptate laboriosam, dignissimos quo quisquam,
-                                        fugiat laudantium.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev btn-primary" type="button"
-                        data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon " aria-hidden="true"></span>
-                        <span class="visually-hidden ">Next</span>
-                    </button>
-                </div>
-                {{-- End of carousel --}}
-            </div>
-        </div>
-    </div>
-    {{-- End of what they say about use --}}
+    {{-- Beginning of subscribe to our news letter --}}
+    
+    {{-- End of subscribe to our news letter --}}
 @endsection

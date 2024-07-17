@@ -53,9 +53,9 @@ class LaundryCategory extends Component
     public function load()
     {
         if (!$this->search) {
-            $this->laundryCategories = ModelsLaundryCategory::paginate(5);
+            $this->laundryCategories = ModelsLaundryCategory::orderBy("created_at", "DESC")->paginate(10);
         } else {
-            $this->laundryCategories = ModelsLaundryCategory::where("name", "LIKE", '%' . $this->search . '%')->paginate(5);
+            $this->laundryCategories = ModelsLaundryCategory::where("name", "LIKE", '%' . $this->search . '%')->orderBy("created_at", "DESC")->paginate(10);
         }
     }
 

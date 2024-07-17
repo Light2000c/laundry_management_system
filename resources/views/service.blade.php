@@ -28,50 +28,27 @@
 
                 <div class="row mt-4 g-4">
                     <div class="col-12 col-lg-4 mb-2">
-                        <div class="card shadow border-0 shadow text-center p-3 h-100 bg-light">
-                            <h6 style="font-size: 20px; font-weight: bolder;">Wash And Fold</h6>
-                            <p>Efficient laundering and folding of everyday clothing and linens for ultimate convenience.
+                        <div class="card shadow border-0 shadow text-center p-3 pt-5 pb-5 h-100 bg-light">
+                            <h6 style="font-size: 20px; font-weight: bolder;">Washing Services</h6>
+                            <p>Our Regular Wash, Delicate Wash, Heavy-Duty Wash, and Hand Wash cater to different fabric
+                                types and soiling levels.
                             </p>
                         </div>
                     </div>
 
                     <div class="col-12 col-lg-4 mb-2">
-                        <div class="card shadow border-0 text-center p-3 h-100 bg-light">
-                            <h6 style="font-size: 20px; font-weight: bolder;">Dry Cleaning</h6>
-                            <p>Professional care for delicate fabrics, ensuring garments retain their integrity and
-                                freshness.</p>
+                        <div class="card shadow border-0 text-center p-3 pt-5 pb-5 h-100 bg-light">
+                            <h6 style="font-size: 20px; font-weight: bolder;">Ironing Services</h6>
+                            <p>We offer Basic Ironing, Delicate Ironing, Heavy-Duty Ironing, and Steam Ironing to keep your
+                                clothes looking sharp and presentable.</p>
                         </div>
                     </div>
 
                     <div class="col-12 col-lg-4 mb-2">
-                        <div class="card shadow border-0 text-center p-3 h-100 bg-light">
-                            <h6 style="font-size: 20px; font-weight: bolder;">Stain Removal</h6>
-                            <p>Effective treatment to remove tough stains, restoring garments to pristine condition.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-lg-4 mb-2">
-                        <div class="card shadow border-0 text-center p-3 h-100 bg-light">
-                            <h6 style="font-size: 20px; font-weight: bolder;">Alterations And Repairs</h6>
-                            <p>Tailoring services for perfect fit and garment maintenance, including hemming and repairs..
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-lg-4 mb-2">
-                        <div class="card shadow border-0 text-center p-3 h-100 bg-light">
-                            <h6 style="font-size: 20px; font-weight: bolder;">Laundry Delivery</h6>
-                            <p>Efficient delivery of freshly laundered clothes to your doorstep, ensuring convenience and
-                                time-saving.</p>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-lg-4 mb-2">
-                        <div class="card shadow border-0 text-center p-3 h-100 bg-light">
-                            <h6 style="font-size: 20px; font-weight: bolder;">Specialty Item Cleaning</h6>
-                            <p>Gentle care for delicate items like wedding gowns and comforters, preserving their
-                                quality..
-                            </p>
+                        <div class="card shadow border-0 text-center p-3 pt-5 pb-5 h-100 bg-light">
+                            <h6 style="font-size: 20px; font-weight: bolder;">Special Items</h6>
+                            <p>We expertly clean and press curtains, drapes, bedding, table linens, upholstery covers, and
+                                theatrical costumes, ensuring they receive the utmost care.</p>
                         </div>
                     </div>
 

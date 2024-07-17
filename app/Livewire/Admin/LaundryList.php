@@ -2,10 +2,13 @@
 
 namespace App\Livewire\Admin;
 
+use App\Mail\InfoMail;
 use App\Mail\LaundryMail;
 use App\Models\LaundryCategory;
 use App\Models\LaundryItem;
 use App\Models\LaundryList as ModelsLaundryList;
+use App\Models\Payment;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -32,6 +35,8 @@ class LaundryList extends Component
     public $busy = false;
     public $status;
     public $reference;
+    public $paid;
+    public $laundry_total;
 
     public $search = "";
 
@@ -45,9 +50,7 @@ class LaundryList extends Component
     public $rules = [
         "customer_name" => "required",
         "email" => "required",
-        "remark" => "required"
     ];
-
 
 
     public function mount()
@@ -74,9 +77,9 @@ class LaundryList extends Component
     public function load()
     {
         if (!$this->search) {
-            $this->laundry_lists = ModelsLaundryList::paginate(5);
+            $this->laundry_lists = ModelsLaundryList::orderBy("created_at", "DESC")->paginate(10);
         } else {
-            $this->laundry_lists = ModelsLaundryList::where("customer_name", "LIKE", '%' . $this->search . '%')->orWhere("reference", "LIKE", '%' . $this->search . '%')->paginate(5);
+            $this->laundry_lists = ModelsLaundryList::orderBy("created_at", "DESC")->where("customer_name", "LIKE", '%' . $this->search . '%')->orWhere("reference", "LIKE", '%' . $this->search . '%')->paginate(10);
         }
 
         $this->laundry_categories = LaundryCategory::get();
@@ -85,6 +88,7 @@ class LaundryList extends Component
     public function refreshList()
     {
         $this->laundry_items = array();
+        $this->active_laundry = "";
         $this->weights = [];
         $this->weight = [];
         $this->customer_name = "";
@@ -92,6 +96,8 @@ class LaundryList extends Component
         $this->remark = "";
         $this->errorMessage = "";
         $this->resetPage();
+        $this->paid = "";
+        $this->laundry_total = "";
     }
 
 
@@ -185,7 +191,13 @@ class LaundryList extends Component
             $this->weight = $item->weight;
 
             $this->updateLaundryItem($item->id);
+
+            $this->laundry_total = (int) $this->laundry_total + ($item->weight * $item->laundryCategory->price);
         }
+
+
+
+        $this->getLaundryTotal($laundry->id);
 
 
         return $this->dispatch("updateModal", ["id" => $id]);
@@ -248,9 +260,9 @@ class LaundryList extends Component
 
 
         $this->errorMessage = "";
-        
 
-        if($this->busy){
+
+        if ($this->busy) {
             return;
         }
 
@@ -268,6 +280,7 @@ class LaundryList extends Component
         $this->generateReference();
 
         $this->busy = true;
+
 
         $laundry =  ModelsLaundryList::create([
             "customer_name" => $this->customer_name,
@@ -287,13 +300,25 @@ class LaundryList extends Component
                 "laundry_category_id" => $item["category_id"],
                 "weight" => $item["weight"]
             ]);
+
+        }
+
+
+        $total = 0;
+
+        $laundry_items = LaundryItem::where("laundry_list_id", $laundry->id)->get();
+
+
+        foreach($laundry_items as $item){
+            $total = $total + ($item->weight * $item->laundryCategory->price);
         }
 
         $details = [
             "data" => $laundry,
+            "total" => $total,
         ];
 
-       $this->sendMail($details);
+        $this->sendMail($details);
 
         $this->busy = false;
         $this->load();
@@ -329,11 +354,15 @@ class LaundryList extends Component
             return;
         }
 
+
+
         if (!$this->laundry_items) {
             $this->busy = false;
             return $this->errorMessage = "You haven't added any item to the list";
         }
 
+
+        $total = 0;
 
         foreach ($this->laundry_items as $item) {
             if ($item["id"] === "unknown") {
@@ -352,6 +381,24 @@ class LaundryList extends Component
                     ]);
                 }
             }
+        }
+
+
+        $laundry_items = LaundryItem::where("laundry_list_id", $this->active_laundry->id)->get();
+
+
+        foreach($laundry_items as $item){
+            $total = $total + ($item->weight * $item->laundryCategory->price);
+        }
+       
+
+        if($this->status === "2"){
+            $details = [
+                "data" => $this->active_laundry,
+                "total" => $total,
+            ];
+ 
+            $this->sendInfoMail($details);
         }
 
         $this->busy = false;
@@ -430,6 +477,77 @@ class LaundryList extends Component
 
     }
 
+    public function getLaundryTotal($laundryId)
+    {
+
+        $paid = Payment::where("laundry_list_id", $laundryId)->first();
+
+        $this->paid = $paid;
+    }
+
+    public function getTotal($laundryId){
+        $total = 0;
+
+        $laundry_items = LaundryItem::where("laundry_list_id", $laundryId)->get();
+
+
+        foreach($laundry_items as $item){
+            $total = $total + ($item->weight * $item->laundryCategory->price);
+        }
+
+        return $total;
+    }
+
+    public function updateLaundryPrice($total, $paymentId = null)
+    {
+        if ($this->busy) {
+            return;
+        }
+
+        $this->busy = true;
+
+        $laundry = ModelsLaundryList::find($this->active_laundry->id);
+
+        if ($laundry) {
+            if ($paymentId == null) {
+                $paid = $laundry->payment()->create([
+                    "amount" => $total,
+                    "type" => "offline"
+                ]);
+
+
+                $updateLaundry = $laundry->update([
+                    "paid_at" => Carbon::now()->toDateTimeString(),
+                ]);
+
+                if ($paid && $updateLaundry) {
+                    $this->showAlert("success", "Laundry payment successfully updated.");
+                } else {
+                    $this->showAlert("error", "something went wrong, please refresh and try again.");
+                }
+            } else {
+                $payment = Payment::find($paymentId);
+
+                if ($payment) {
+                    $payment->update([
+                        "amount" => $total
+                    ]);
+
+                    if ($payment) {
+                        $this->showAlert("success", "Laundry payment successfully updated.");
+                    } else {
+                        $this->showAlert("error", "something went wrong, please refresh and try again.");
+                    }
+                }
+            }
+        }
+
+
+        $this->getLaundryTotal($laundry->id);
+        return $this->busy = false;
+    }
+
+
     public function generateNewPdf($id)
     {
 
@@ -438,7 +556,12 @@ class LaundryList extends Component
 
     public function sendMail($details)
     {
-      Mail::to($details["data"]->email)->send(new LaundryMail($details));
+        Mail::to($details["data"]->email)->send(new LaundryMail($details));
+    }
+
+    public function sendInfoMail($details)
+    {
+        Mail::to($details["data"]->email)->send(new InfoMail($details));
     }
 
 
@@ -449,5 +572,15 @@ class LaundryList extends Component
             icon: $icon,
             title: $title,
         );
+    }
+
+    public function showLoader()
+    {
+        $this->dispatch('showLoader');
+    }
+
+    public function hideLoader()
+    {
+        $this->dispatch('dismissLoader');
     }
 }

@@ -73,49 +73,6 @@ body {}
 
 /* Basic CSS for navigation bar */
 
-/* nav {
-    background-color: #171079;
-    width: 100%;
-
-    text-align: right;
-}
-
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-nav li {
-    display: inline-block;
-}
-
-nav a {
-    display: inline-block;
-    padding: 50px 20px;
-    text-decoration: none;
-    color: white;
-}
-
-nav a:hover {
-    background-color: #9a8105;
-}
-
-.logo1 img {
-    height: 100px;
-    width: 100px;
-    position: absolute;
-    top: 18px;
-    left: 90px;
-
-}
-
-.logotoo h2 {
-    position: absolute;
-    color: white;
-    left: 240px;
-    top: 40px;
-} */
 .display a{
     text-decoration: none;
     color: #171079;
@@ -207,6 +164,13 @@ body {
     display: none;
     color: #333;
     font-weight: bold;
+}
+
+.accordion {
+	--bs-accordion-btn-color: ghostwhite;
+	--bs-accordion-btn-bg: #3128b0;
+	--bs-accordion-active-color:ghostwhite;
+	--bs-accordion-active-bg: #3128b0;
 }
 
 /* Responsive Styles (optional) */

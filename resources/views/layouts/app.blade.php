@@ -16,44 +16,20 @@
 
 
 
-    <title>Home</title>
+    <title>Dominion Laundry Care</title>
+
+    @livewireStyles
 </head>
 
 <body>
-
-    {{-- <div class="bar1">
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="./Laundryaboutus.html">About us</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Calculator</a></li>
-                <li><a href="#">Pricing</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Contact us</a></li>
-                <li><a href="#">Order</a></li>
-            </ul>
-        </nav>
-
-    </div>
-
-    <div class="logo1">
-        <img src="./Photos/Dominion university logo 2.png" alt="">
-    </div>
-    <div class="logotoo">
-        <h2>
-            Dominion Laundry Care
-        </h2>
-    </div> --}}
-
-
 
     <div>
         <div class="d-flex justify-content-end bg-light pt-2 pb-2">
             <marquee class="display" scrolldelay="200" behavior="" direction="left">
                 <a class="me-3">Welcome to Dominion laundry Care</a>
-                <a class="me-3"  href=""><i class="bi bi-envelope-at-fill me-1"></i> example@dominionluandry.com</a>
-                <a  class="me-3" href=""><i class="bi bi-telephone-fill me-1"></i> +234 815 345 3456</a>
+                <a class="me-3" href=""><i class="bi bi-envelope-at-fill me-1"></i>
+                    support@dominionlaundrycare.com</a>
+                <a class="me-3" href=""><i class="bi bi-telephone-fill me-1"></i> +2347042125514</a>
             </marquee>
         </div>
     </div>
@@ -78,28 +54,34 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ms-auto mt-3">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="">Home</a>
+                    <li class="{{ request()->is('home') ||  request()->is('/') ? 'nav-item active' : 'nav-item' }}">
+                        <a class="nav-link" href="{{ route('home') }}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Service</a>
+                    <li class="{{ request()->is('service') ? 'nav-item active' : 'nav-item' }}">
+                        <a class="nav-link" href="{{ route('service') }}">Service</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Blog</a>
+                    {{-- <li class="{{ request()->is('blog') ? 'nav-item active' : 'nav-item' }}">
+                        <a class="nav-link" href="{{ route('blog') }}">Blog</a>
+                    </li> --}}
+                    <li class="{{ request()->is('faq') ? 'nav-item active' : 'nav-item' }}">
+                        <a class="nav-link" href="{{ route("faq") }}">Faq</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Faq</a>
+                    <li class="{{ request()->is('about') ? 'nav-item active' : 'nav-item' }}">
+                        <a class="nav-link" href="{{ route('about') }}">About</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">About</a>
+                    <li class="{{ request()->is('contact-us') ? 'nav-item active' : 'nav-item' }}">
+                        <a class="nav-link" href="{{ route('contact') }}">Contact</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Contact</a>
+                    <li class="{{ request()->is('track-laundry') ? 'nav-item active' : 'nav-item' }}">
+                        <a class="nav-link" href="{{ route('track') }}">Tracking</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Tracking</a>
+                    <li class="{{ request()->is('price') ? 'nav-item active' : 'nav-item' }}">
+                        <a class="nav-link" href="{{ route('price') }}">Pricing</a>
                     </li>
                 </ul>
+                <div class="align-self-center ms-3 mt-3">
+                    <a href="{{ route('dashboard') }}" class="btn btn-outline-light"><i class="bi bi-person-circle me-1"></i> Admin</a>
+                </div>
             </div>
         </div>
     </nav>
@@ -125,28 +107,26 @@
                             Dominion Laundry Care
                         </h2>
                         <p>
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum quasi dicta quos odio cum,
-                            ea
-                            praesentium veritatis ipsa. Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
-                            et
-                            illum commodi.</p>
+                            Experience the ultimate in laundry convenience and care, where every garment is treated with
+                            the utmost attention, and every customer is valued.</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-lg-4 d-flex justify-content-start justify-content-lg-center mb-4">
                     <div class="text-start text-lg-center footer-item">
                         <h5 class="font-weight-bold">Quick Links</h5>
-                        <p><a href="">Home</a></p>
-                        <p><a href="">About</a></p>
-                        <p><a href="">Contact</a></p>
-                        <p><a href="">Services</a></p>
+                        <p><a href="{{ route('home') }}">Home</a></p>
+                        <p><a href="{{ route('about') }}">About</a></p>
+                        <p><a href="{{ route('contact') }}">Contact</a></p>
+                        <p><a href="{{ route('service') }}">Services</a></p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-lg-4 d-flex justify-content-start justify-content-lg-center mb-4">
                     <div class="text-start text-lg-center footer-item">
                         <h5 class="font-weight-bold">More</h5>
-                        <p><a href="">Developer</a></p>
-                        <p><a href="">Price List</a></p>
-                        <p><a href="">Faq</a></p>
+                        {{-- <p><a href="{{ route('blog') }}">Blog</a></p> --}}
+                        <p><a href="{{ route("track") }}">Tracking</a></p>
+                        <p><a href="{{ route("faq") }}">Faq</a></p>
+                        <p><a href="{{ route("agreement") }}">Terms & Conditions</a></p>
                     </div>
                 </div>
             </div>
@@ -165,7 +145,7 @@
 
 
 
-
+    @livewireScripts
 
     <script>
         const backToTopBtn = document.querySelector('.back-to-top');
@@ -194,19 +174,17 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script> --}}
 
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API = Tawk_API || {},
-            Tawk_LoadStart = new Date();
-        (function() {
-            var s1 = document.createElement("script"),
-                s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/61a2292853b398095a665a89/1i0jauki6';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/669054e3c3fb85929e3e42db/1i2hsn6ur';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
     </script>
     <!--End of Tawk.to Script-->
 </body>

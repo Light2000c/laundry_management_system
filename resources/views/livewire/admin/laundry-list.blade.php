@@ -3,7 +3,7 @@
         <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
             aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Laundry List</li>
             </ol>
         </nav>
@@ -17,7 +17,8 @@
     <div class="card shadow border-0 m-4 p-3">
         <div class="d-flex justify-content-end">
             <div class="col-lg-3 col-sm-6 d-flex">
-                <input wire:model.live.debounce.150ms="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <input wire:model.live.debounce.150ms="search" class="form-control me-2" type="search"
+                    placeholder="Search" aria-label="Search">
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -40,8 +41,8 @@
                         <th scope="col">Customer Name</th>
                         <th scope="col">Customer Name</th>
                         <th scope="col">Date</th>
-                        <th scope="col">Queue</th>
                         <th scope="col">Reference</th>
+                        <th scope="col">Total Bill</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -53,15 +54,15 @@
                             <td>{{ $list_item->customer_name }}</td>
                             <td>{{ $list_item->email }}</td>
                             <td>{{ $list_item->created_at }}</td>
-                            <td>{{ $list_item->queue }}</td>
                             <td>{{ $list_item->reference }}</td>
+                            <td>₦{{ number_format($this->getTotal($list_item->id)) }}</td>
                             <td>
-                                @if ($list_item->status === "2")
-                                    <span class="badge text-bg-success">success</span>
-                                @elseif($list_item->status === "1")
-                                <span class="badge text-bg-info">In Progress</span>
+                                @if ($list_item->status === '2')
+                                    <span class="badge text-bg-success">completed</span>
+                                @elseif($list_item->status === '1')
+                                    <span class="badge text-bg-info">In Progress</span>
                                 @else
-                                <span class="badge text-bg-danger">pending</span>
+                                    <span class="badge text-bg-danger">pending</span>
                                 @endif
 
                             </td>
@@ -70,10 +71,11 @@
                                     <button wire:click="openUpdateModal({{ $list_item->id }})"
                                         class="btn btn-outline-primary btn-sm me-2"><i
                                             class="bi bi-pencil-square"></i></button>
-                                            <button wire:click="generateNewPdf({{ $list_item->id }})"
-                                                class="btn btn-outline-primary btn-sm me-2"><i
-                                                    class="bi bi-printer-fill"></i></button>
-                                    <button wire:click="deleteLaundry({{ $list_item->id }})" class="btn btn-outline-primary btn-sm"><i class="bi bi-trash3"></i></button>
+                                    <button wire:click="generateNewPdf({{ $list_item->id }})"
+                                        class="btn btn-outline-primary btn-sm me-2"><i
+                                            class="bi bi-printer-fill"></i></button>
+                                    <button wire:click="deleteLaundry({{ $list_item->id }})"
+                                        class="btn btn-outline-primary btn-sm"><i class="bi bi-trash3"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -122,7 +124,7 @@
                             @enderror
                         </div>
                         <div class="col-sm-6 col-lg-4 mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Remark</label>
+                            <label for="exampleFormControlTextarea1" class="form-label">Remark (optional)</label>
                             <textarea wire:model="remark" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                             @error('remark')
                                 <small class="text-danger">{{ $message }}</small>
@@ -154,9 +156,12 @@
                                 @enderror
                             </div>
                             <div class="col-sm-4 col-lg-4">
-                                <button wire:click="addToLaundryItem" class="btn btn-primary"
+                                <button wire:click="addToLaundryItem" wire:loading.remove class="btn btn-primary"
                                     style="margin-top: 30px;"><i class="bi bi-plus"></i>
                                     Add to List</button>
+                                <button wire:loading wire:target="addToLaundryItem" class="btn btn-primary"
+                                    style="margin-top: 30px;" disabled><i class="bi bi-plus"></i>
+                                    processing....</button>
                             </div>
                         </div>
 
@@ -226,8 +231,9 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button wire:click="send" type="button"
-                class="btn btn-primary"{{ $busy ? 'disabled' : '' }}>{{ $busy ? 'processing' : 'Save' }}</button>
+            <button wire:click="send" wire:loading.remove type="button"
+                class="btn btn-primary">Save</button>
+            <button class="btn btn-primary" wire:loading  wire:target="send" type="button" disabled>Processing...</button>
         </div>
     </div>
 </div>
@@ -289,6 +295,30 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                     @enderror
                 </div>
 
+                <div class="mt-4 mb-4">
+                    @if ($paid)
+                        <div class="row">
+                            <div class="col-12 col-lg-4">Current Total: {{ $this->laundry_total }}</div>
+                            <div class="col-12 col-lg-4">Recent Total: {{ $paid->amount }} </div>
+                            <div class="col-12 col-lg-4"><button
+                                    wire:click="updateLaundryPrice({{ $this->laundry_total }}, {{ $paid->id }})"
+                                    class="btn btn-outline-primary">Update Price</button></div>
+                        </div>
+                    @else
+                        <div class="row">
+                            <div class="col-12 col-lg-4">Current Total: {{ $this->laundry_total }}</div>
+                            <div class="col-12 col-lg-4">
+                                <button
+                                    wire:click="updateLaundryPrice({{ $this->laundry_total }})" wire:loading.remove
+                                    class="btn btn-outline-primary">Update Price</button>
+                                <button
+                                    wire:loading wire:target="updateLaundryPrice({{ $this->laundry_total }})"
+                                    class="btn btn-outline-primary" disabled>Update Price</button>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
                 <hr>
 
                 <div class="row">
@@ -314,9 +344,11 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                         @enderror
                     </div>
                     <div class="col-sm-4 col-lg-4">
-                        <button wire:click="addToLaundryItem" class="btn btn-primary"
+                        <button wire:click="addToLaundryItem" wire:loading.remove class="btn btn-primary"
                             style="margin-top: 30px;"><i class="bi bi-plus"></i>
                             Add to List</button>
+                        <button wire:loading wire:target="addToLaundryItem"  class="btn btn-primary"
+                            style="margin-top: 30px;" disabled><i class="bi bi-plus"></i>Processing...</button>
                     </div>
                 </div>
 
@@ -362,30 +394,13 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
             </table>
         </div>
 
-        {{-- <hr>
-
-                        <div class="row mt-3">
-                            <div class="col-sm-6 col-lg-6 mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Amount Tendered</label>
-                                <input type="number" value="0" class="form-control"
-                                    id="exampleFormControlInput1">
-                            </div>
-                            <div class="col-sm-6 col-lg-6 mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Total Tendered</label>
-                                <input type="number" value="0" class="form-control"
-                                    id="exampleFormControlInput1">
-                            </div>
-                            <div class="col-sm-6 col-lg-6 mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Change</label>
-                                <input type="number" class="form-control"
-                                    id="exampleFormControlInput1" disabled>
-                            </div>
-                        </div> --}}
     </div>
 </div>
 <div class="modal-footer">
-    <button wire:click="updateLaundry" type="button"
-        class="btn btn-primary"{{ $busy ? 'disabled' : '' }}>{{ $busy ? 'processing' : 'Save' }}</button>
+    <button wire:click="updateLaundry" wire:loading.remove type="button"
+        class="btn btn-primary">Save</button>
+    <button wire:loading wire:target="updateLaundry" type="button"
+        class="btn btn-primary" disabled>Processing...</button>
 </div>
 </div>
 </div>
