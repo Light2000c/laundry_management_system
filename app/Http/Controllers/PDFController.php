@@ -19,11 +19,14 @@ class PDFController extends Controller
 
        $total_items = LaundryItem::where("laundry_list_id", $laundry_list->id)->sum("weight");
 
+       $laundry_payment = $laundry_list->payment()->first();
+
     //    dd($laundry_items);
 
         $data = [
             "date" => date("m/d/y"),
             "laundry_list" => $laundry_list,
+            "laundry_payment" => $laundry_payment,
             "laundry_items" => $laundry_items,
             "total_items" => $total_items,
         ];

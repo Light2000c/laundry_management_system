@@ -42,6 +42,7 @@
                         <th scope="col">Customer Name</th>
                         <th scope="col">Date</th>
                         <th scope="col">Reference</th>
+                        <th scope="col">Paid At</th>
                         <th scope="col">Total Bill</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
@@ -55,6 +56,7 @@
                             <td>{{ $list_item->email }}</td>
                             <td>{{ $list_item->created_at }}</td>
                             <td>{{ $list_item->reference }}</td>
+                            <td>{{ $list_item->paid_at }}</td>
                             <td>₦{{ number_format($this->getTotal($list_item->id)) }}</td>
                             <td>
                                 @if ($list_item->status === '2')

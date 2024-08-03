@@ -18,15 +18,15 @@
         <div class="row mb-2">
             <div class="col-sm-4 col-lg-4 mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Date From</label>
-                <input type="date" class="form-control" id="exampleFormControlInput1">
+                <input wire:model="dateFrom" type="date" class="form-control" id="exampleFormControlInput1">
             </div>
             <div class="col-sm-4 col-lg-4 mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Date To</label>
-                <input type="date" class="form-control" id="exampleFormControlInput1">
+                <input wire:model="dateTo" type="date" class="form-control" id="exampleFormControlInput1">
             </div>
             <div class="col-sm-6 col-lg-4 mb-3">
-                <button class="btn btn-outline-primary  btn-expand me-2" style="margin-top: 30px;"><i class="bi bi-sort-down"></i> Filter</button>
-                <button class="btn btn-outline-primary  btn-expand " style="margin-top: 30px;"><i class="bi bi-printer-fill"></i> Print</button>
+                <button wire:click="filterByDate" class="btn btn-outline-primary  btn-expand me-2" style="margin-top: 30px;"><span wire:loading.remove>Filter</span> <span wire:loading wire:target="filterByDate">Processing</span>  </button>
+                {{-- <button wire:click="downloadPdf" class="btn btn-outline-primary  btn-expand " style="margin-top: 30px;"><i class="bi bi-printer-fill"></i> Print</button> --}}
                 {{-- <button class="btn btn-outline-primary btn-sm"> Print</button> --}}
             </div>
         </div>
@@ -40,30 +40,22 @@
                     <tr>
                         <th scope="col">Date</th>
                         <th scope="col">Customer Name</th>
-                        <th scope="col">Total Amount</th>
-                        <th scope="col">Customer Name</th>
+                        <th scope="col">email</th>
                         <th scope="col">Total Amount</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($laundries as $laundry)
                     <tr>
-                        <td>12-02-2020</td>
-                        <td>Clinton Onitsha</td>
-                        <td class="text-end">135.00</td>
-                        <td>Clinton Onitsha</td>
-                        <td class="text-end">135.00</td>
+                        <td>{{ $laundry->created_at }}</td>
+                        <td>{{ $laundry->customer_name }}</td>
+                        <td>{{ $laundry->email }}</td>
+                        <td class="text-end">{{ $this->getTotal($laundry->id) }}</td>
                     </tr>
-
-                    <tr>
-                        <td>12-02-2020</td>
-                        <td>Felix Smart</td>
-                        <td class="text-end">45.00</td>
-                        <td>Clinton Onitsha</td>
-                        <td class="text-end">135.00</td>
-                    </tr>
+                    @endforeach
                     <tr>
                         <td colspan="2" class="text-end">Total</td>
-                        <td class="text-end">135.00</td>
+                        <td class="text-end">{{ $laundry_total }}</td>
                     </tr>
 
                 </tbody>

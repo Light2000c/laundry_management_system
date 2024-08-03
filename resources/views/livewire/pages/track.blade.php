@@ -88,7 +88,6 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Customer Name</th>
                                     <th scope="col">Date</th>
-                                    <th scope="col">Queue</th>
                                     <th scope="col">Reference</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Amount</th>
@@ -103,7 +102,6 @@
                                         <th scope="row">{{ $item->id }}</th>
                                         <td>{{ $item->customer_name }}</td>
                                         <td>{{ $item->created_at }}</td>
-                                        <td>{{ $item->queue }}</td>
                                         <td>{{ $item->reference }}</td>
                                         <td>
                                             @if ($item->status === '2')
@@ -115,8 +113,8 @@
                                             @endif
 
                                         </td>
-                                        <td>{{ $item->paid_at }}</td>
                                         <td>₦{{ number_format($this->getTotal($item->id)) }}</td>
+                                        <td>{{ $item->paid_at }}</td>
                                         <td>{{ $item->created_at }}</td>
                                         <td>
                                             <div class="d-flex">
@@ -127,7 +125,7 @@
                                                     class="btn btn-outline-primary btn-sm me-2"><i
                                                         class="bi bi-printer-fill"></i></button>
                                                 <button wire:click="pay({{ $item }})"
-                                                    class="btn btn-outline-primary btn-sm me-2"><i
+                                                    class="btn btn-outline-primary btn-sm me-2" {{ $item->paid_at? "disabled" : "" }}><i
                                                         class="bi bi-credit-card"></i> Pay</button>
                                             </div>
                                         </td>
@@ -159,10 +157,9 @@
                     <div>
                         <p>Customer Name: {{ $active_laundry->customer_name ?? '' }}</p>
                         <p>Customer Email: {{ $active_laundry->email ?? '' }}</p>
-                        <p>Remark: {{ $active_laundry->remark ?? '' }}</p>
                         <p>Status:
                             @if ($active_laundry ? $active_laundry->status === '2' : '')
-                                <span class="badge text-bg-success">success</span>
+                                <span class="badge text-bg-success">Completed</span>
                             @elseif($active_laundry ? $active_laundry->status === '1' : '')
                                 <span class="badge text-bg-info">In Progress</span>
                             @else
@@ -171,6 +168,10 @@
                         </p>
                         <p>Total Item: {{ $this->getItemsCount($active_laundry->id ?? '') }}</p>
                         <p>Paid At: {{ $active_laundry->paid_at ?? '' }} </p>
+                        @if($this->active_payment)
+                        <p>Total Amount Paid: {{ $active_payment->amount ?? '' }} </p>
+                        <p>Payment Type: {{ $active_payment->type ?? '' }}</p>
+                        @endif
                     </div>
 
                     <div>
@@ -222,7 +223,7 @@
 
 
     <script>
-        window.addEventListener("listItems", function(e) {
+        window.addEventListener("showItems", function(e) {
             $("#itemModal").modal("show");
         });
 

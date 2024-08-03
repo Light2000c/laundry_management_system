@@ -23,30 +23,34 @@ class PaymentController extends Controller
         $laundry = LaundryList::find($id);
 
         if ($paymentDetails["status"]) {
-           
-           $paid = $laundry->payment()->create([
-                "amount" => (int) $paymentDetails["data"]["amount"],
+
+            $paid = $laundry->payment()->create([
+                "amount" => (int) $paymentDetails["data"]["amount"] / 100,
                 "type" => "online"
             ]);
 
-            if(!$paid){
-
+            if (!$paid) {
             }
 
             $updateLaundry = $laundry->update([
                 "paid_at" => Carbon::now()->toDateTimeString(),
             ]);
 
-            if(!$updateLaundry){
-
+            if (!$updateLaundry) {
             }
 
-            return redirect()->route("track");
+           return redirect()->route("track", ["message" => "Payment successful. you can download a receipt of your laundry to confirm payment status."]);
         }
     }
 
+    public function generateNewPdf($id)
+    {
 
- 
+        return redirect()->route("receipt-pdf", ["id" => $id]);
+    }
+
+
+
 
     // public function showAlert($icon, $title)
     // {

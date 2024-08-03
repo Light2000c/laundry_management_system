@@ -23,6 +23,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\payment\PaymentController;
+use App\Http\Controllers\PdfReceiptController;
+use App\Http\Controllers\ReportPdfController;
 use App\Livewire\Admin\Payment;
 use App\Livewire\Pages\Price;
 
@@ -74,6 +76,9 @@ Route::get("/prices", Price::class)->name("price");
 // Route::get("/blog/{blog}", BlogDetails::class);
 
 Route::get("/generate-pdf/{id}", [PDFController::class, "index"])->name("generate-pdf");
+Route::get("/receipt-pdf/{id}", [PdfReceiptController::class, "index"])->name("receipt-pdf");
+
+// Route::get("/generate-report-pdf/{dateFrom}/{dateTo}", [ReportPdfController::class, "index"])->name("generate-report-pdf");
 
 //admin routes
 Route::group(["middleware" => ['auth'], "prefix" => "admin"], function () {

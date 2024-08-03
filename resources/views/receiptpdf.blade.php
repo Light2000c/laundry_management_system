@@ -15,7 +15,8 @@
             <div>
                 <p>Customer Name: {{ $laundry_list->customer_name}}</p>
                 <p>Customer Email: {{ $laundry_list->email}}</p>
-                <p>Status:
+                <p>Remark: {{ $laundry_list->remark}}</p>
+                <p>Laundry Status:
                     @if ($laundry_list->status === '2')
                         <span class="badge text-bg-success">success</span>
                     @elseif($laundry_list->status === '1')
@@ -26,14 +27,10 @@
                 </p>
                 <p>Total Item:  {{ $total_items }}</p>
                 <p>Paid At: {{ $laundry_list->paid_at }} </p>
-                @if($laundry_payment)
-                <p>Total Amount Paid: {{ $laundry_payment->amount }} </p>
-                <p>Payment Type: {{ $laundry_payment->type }}</p>
-                @endif
+                <p>Paid Through: Paystack</p>
             </div>
 
             <div>
-                <p>Item Paid For:</p>
                 <div class="table-responsive">
                     <table class="table  table-striped table-hover">
                         <thead>

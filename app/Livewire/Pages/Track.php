@@ -4,6 +4,7 @@ namespace App\Livewire\Pages;
 
 use App\Models\LaundryItem;
 use App\Models\LaundryList;
+use App\Models\Payment;
 use Exception;
 use Livewire\Component;
 use Nette\Utils\Random;
@@ -15,6 +16,7 @@ class Track extends Component
     public $laundry_lists;
     public $laundry_items;
     public $active_laundry;
+    public $active_payment;
     public $keyword = "";
     public $busy = false;
 
@@ -24,6 +26,14 @@ class Track extends Component
 
     public function mount()
     {
+
+        $message =  request()->get("message");
+
+        if ($message !== null) {
+            return $this->showAlert("Payment Status", $message, "success");
+        }
+
+        request()->message = null;
     }
 
     public function render()
@@ -54,7 +64,7 @@ class Track extends Component
             return $this->showAlert("Track Laundry", "We couldn't find any laundry associated with tracking number " . $this->keyword, "info");
         }
 
-       
+
 
         $this->busy = false;
         $this->laundry_lists = $laundry;
@@ -62,15 +72,19 @@ class Track extends Component
 
     public function openItemsModal($id)
     {
+
         $this->refresh();
 
         $laundry = LaundryList::find($id);
 
         $this->active_laundry = $laundry;
 
+        $this->active_payment = $laundry->payment()->first();
+
         $this->laundry_items = LaundryItem::where("laundry_list_id", $id)->get();
 
-        return $this->dispatch("listItems");
+
+        return $this->dispatch("showItems");
     }
 
     public function getItemsCount($id)
@@ -88,7 +102,7 @@ class Track extends Component
         $laundry_items = LaundryItem::where("laundry_list_id", $laundry["id"])->get();
 
 
-        foreach($laundry_items as $item){
+        foreach ($laundry_items as $item) {
             $amount = $amount + ($item->weight * $item->laundryCategory->price);
         }
 
@@ -112,14 +126,15 @@ class Track extends Component
         }
     }
 
-    public function getTotal($laundryId){
+    public function getTotal($laundryId)
+    {
 
         $amount = 0;
 
         $laundry_items = LaundryItem::where("laundry_list_id", $laundryId)->get();
 
 
-        foreach($laundry_items as $item){
+        foreach ($laundry_items as $item) {
             $amount = $amount + ($item->weight * $item->laundryCategory->price);
         }
 
@@ -129,14 +144,17 @@ class Track extends Component
     public function refresh()
     {
         $this->active_laundry = null;
+        $this->active_payment = null;
         $this->laundry_items = "";
     }
 
-    public function generateOrderId(){
-        return time().random_int(0, 99);
+    public function generateOrderId()
+    {
+        return time() . random_int(0, 99);
     }
 
-    public function generateNewPdf($id){
+    public function generateNewPdf($id)
+    {
 
         return redirect()->route("generate-pdf", ["id" => $id]);
     }
@@ -151,6 +169,4 @@ class Track extends Component
             icon: $icon
         );
     }
-
-    
 }
