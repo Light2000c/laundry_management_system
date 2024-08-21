@@ -41,12 +41,6 @@
             </div>
         </div>
 
-        <div>
-            <livewire:components.test />
-            <livewire:components.test />
-        </div>
-
-
         @if (!$laundry_lists)
             <div class="row d-flex justify-content-center mt-5 pt-5 mb-5">
                 <div class="col-11 col-lg-10">
